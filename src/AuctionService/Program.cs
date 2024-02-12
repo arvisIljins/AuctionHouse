@@ -1,4 +1,6 @@
 using AuctionService.Data;
+using AuctionService.Repositories.AuctionsRepository;
+using AuctionService.Services.AuctionService;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -14,6 +16,8 @@ builder.Services.AddDbContext<AuctionDbContext>(opt =>
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+builder.Services.AddScoped<IAuctionService, AuctionService.Services.AuctionService.AuctionService>();
+builder.Services.AddScoped<IAuctionsRepository, AuctionsRepository>();
 
 var app = builder.Build();
 

@@ -18,4 +18,10 @@ public class AuctionsController : ControllerBase
     {
         return Ok(await _auctionService.GetAllAuctions());
     }
+
+    [HttpPost]
+    public async Task<ActionResult<AuctionDto>> CreateAuctions(CreateAuctionDto auctionDto)
+    {
+        return Ok(await _auctionService.CreateAuctions(auctionDto));
+    }
 }
