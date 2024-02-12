@@ -3,6 +3,7 @@ namespace AuctionService.Repositories.AuctionsRepository
     public interface IAuctionsRepository
     {
         Task<List<Auction>> GetAuctionsAsync();
-        Task<Auction> CreateAuctions(Auction auction);
+        Task<Auction> CreateAuction(Auction auction);
+        Task<Auction> UpdateAuction(UpdateAuctionDto auction);       
     }
 }

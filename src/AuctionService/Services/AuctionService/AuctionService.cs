@@ -14,14 +14,14 @@ namespace AuctionService.Services.AuctionService
             _auctionRepository = auctionRepository;
         }
 
-        public async Task<ServiceResponse<AuctionDto>> CreateAuctions(CreateAuctionDto auctionDto)
+        public async Task<ServiceResponse<AuctionDto>> CreateAuction(CreateAuctionDto auctionDto)
         {
             var serviceResponse = new ServiceResponse<AuctionDto>();
             try
             {
                 var auction = _mapper.Map<Auction>(auctionDto);
                 auction.Seller = "Test";
-                var newAuction = await _auctionRepository.CreateAuctions(auction);
+                var newAuction = await _auctionRepository.CreateAuction(auction);
                 serviceResponse.Data = _mapper.Map<AuctionDto>(newAuction);
             }
             catch (Exception ex)
@@ -46,6 +46,22 @@ namespace AuctionService.Services.AuctionService
                 serviceResponse.Message = $"Error retrieving auctions. Error - {ex}";
             }
             return serviceResponse;
-        }    
+        }
+
+        public async Task<ServiceResponse<AuctionDto>> UpdateAuction(UpdateAuctionDto auctionDto)
+        {
+            var serviceResponse = new ServiceResponse<AuctionDto>();
+            try
+            {
+                var newAuction = await _auctionRepository.UpdateAuction(auctionDto);
+                serviceResponse.Data = _mapper.Map<AuctionDto>(newAuction);
+            }
+            catch (Exception ex)
+            {
+                serviceResponse.Success = false;
+                serviceResponse.Message = $"Error - {ex}";
+            }
+            return serviceResponse;
+        }
     }
 }

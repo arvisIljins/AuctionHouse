@@ -5,6 +5,7 @@ namespace AuctionService.Services.AuctionService
     public interface IAuctionService
     {
         Task<ServiceResponse<List<AuctionDto>>> GetAllAuctions();        
-        Task<ServiceResponse<AuctionDto>>CreateAuctions(CreateAuctionDto createAuctionDto);     
+        Task<ServiceResponse<AuctionDto>>CreateAuction(CreateAuctionDto auctionDto);   
+        Task<ServiceResponse<AuctionDto>>UpdateAuction(UpdateAuctionDto auctionDto);       
     }
 }
