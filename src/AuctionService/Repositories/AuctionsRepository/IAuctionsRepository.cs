@@ -4,6 +4,7 @@ namespace AuctionService.Repositories.AuctionsRepository
     {
         Task<List<Auction>> GetAuctionsAsync();
         Task<Auction> CreateAuction(Auction auction);
-        Task<Auction> UpdateAuction(UpdateAuctionDto auction);       
+        Task<Auction> UpdateAuction(UpdateAuctionDto auction); 
+        Task<bool> DeleteAuction(Guid id); 
     }
 }

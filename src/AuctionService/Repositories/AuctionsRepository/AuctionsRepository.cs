@@ -21,6 +21,15 @@ namespace AuctionService.Repositories.AuctionsRepository
             return auction; 
         }
 
+        public async Task<bool> DeleteAuction(Guid id)
+        {
+             var auction = await _context.Auctions.FindAsync(id) 
+                ?? throw new Exception($"{id} - not found item with such id");
+                _context.Auctions.Remove(auction);
+            await _context.SaveChangesAsync();
+            return true;
+        }
+
         public async Task<List<Auction>> GetAuctionsAsync()
         {
             return await _context.Auctions.Include(x => x.Item).ToListAsync();

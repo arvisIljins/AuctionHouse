@@ -32,6 +32,22 @@ namespace AuctionService.Services.AuctionService
             return serviceResponse;
         }
 
+        public async Task<ServiceResponse<string>> DeleteAuction(Guid id)
+        {
+            var serviceResponse = new ServiceResponse<string>();
+            try
+            {
+                var auctions = await _auctionRepository.DeleteAuction(id);
+                serviceResponse.Message = $"Auction deleted - id {id}";
+            }
+            catch (Exception ex)
+            {
+                serviceResponse.Success = false;
+                serviceResponse.Message = $"Error deleting auction. Error - {ex}";
+            }
+            return serviceResponse;
+        }
+
         public async Task<ServiceResponse<List<AuctionDto>>> GetAllAuctions()
         {
             var serviceResponse = new ServiceResponse<List<AuctionDto>>();

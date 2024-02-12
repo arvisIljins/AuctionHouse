@@ -30,4 +30,10 @@ public class AuctionsController : ControllerBase
     {
         return Ok(await _auctionService.UpdateAuction(auctionDto));
     }
+
+    [HttpDelete("{id}")]
+    public async Task<ActionResult<AuctionDto>> DeleteAuction(Guid id)
+    {
+        return Ok(await _auctionService.DeleteAuction(id));
+    }
 }
