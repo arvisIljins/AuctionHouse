@@ -44,11 +44,11 @@ namespace AuctionService.Repositories.AuctionsRepository
         
             if(updatedAuction is null || updatedAuction.Item is null)  throw new Exception($"Characters Id is incorrect");
 
-            updatedAuction.Item.ImageUrl = newAuction.ImageUrl ??  updatedAuction.Item.ImageUrl;
-            updatedAuction.Item.Title = newAuction.Title ??  updatedAuction.Item.Title;
-            updatedAuction.Item.Description = newAuction.Description ??  updatedAuction.Item.Description;
-            updatedAuction.Item.Tags = newAuction.Tags ??  updatedAuction.Item.Tags;
-            updatedAuction.ReservePrice = newAuction.ReservePrice ??  updatedAuction.ReservePrice;
+            updatedAuction.Item.ImageUrl = newAuction.ImageUrl ?? updatedAuction.Item.ImageUrl;
+            updatedAuction.Item.Title = newAuction.Title ?? updatedAuction.Item.Title;
+            updatedAuction.Item.Description = newAuction.Description ?? updatedAuction.Item.Description;
+            updatedAuction.Item.Tags = newAuction.Tags ?? updatedAuction.Item.Tags;
+            updatedAuction.ReservePrice = newAuction.ReservePrice ?? updatedAuction.ReservePrice;
            
             await _context.SaveChangesAsync();
             return updatedAuction; 
