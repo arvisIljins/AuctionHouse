@@ -4,6 +4,6 @@ namespace SearchService.Service.SearchItemService
 {
     public interface IItemSearchService
     {
-          Task<ServiceResponse<List<Item>>> SearchItems(string searchTerm);  
+          Task<ServiceResponse<SearchList>> SearchItems(SearchRequest searchRequest);  
     }
 }

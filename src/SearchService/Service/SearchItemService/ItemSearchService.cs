@@ -12,18 +12,12 @@ namespace SearchService.Service.SearchItemService
             _itemSearchRepository = itemSearchRepository;
         }
 
-        public async Task<ServiceResponse<List<Item>>> SearchItems(string searchTerm)
+        public async Task<ServiceResponse<SearchList>> SearchItems(SearchRequest searchRequest)
         {
-            var serviceResponse = new ServiceResponse<List<Item>>();
+            var serviceResponse = new ServiceResponse<SearchList>();
             try
-            {
-                var items = await _itemSearchRepository.SearchItems(searchTerm);
-                if(items is null){
-                    serviceResponse.Success = false;
-                    serviceResponse.Message = $"No items found";
-                }
-
-
+            {   
+                var items = await _itemSearchRepository.SearchItems(searchRequest);
                 serviceResponse.Data = items;
             }
             catch (Exception ex)
