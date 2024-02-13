@@ -48,13 +48,13 @@ namespace AuctionService.Services.AuctionService
             return serviceResponse;
         }
 
-        public async Task<ServiceResponse<List<AuctionDto>>> GetAllAuctions()
+        public async Task<ServiceResponse<List<AuctionDto>>> GetAllAuctions(string? date)
         {
             var serviceResponse = new ServiceResponse<List<AuctionDto>>();
             try
             {
-                var auctions = await _auctionRepository.GetAuctionsAsync();
-                serviceResponse.Data = _mapper.Map<List<AuctionDto>>(auctions);
+                var auctions = await _auctionRepository.GetAuctionsAsync(date);
+                serviceResponse.Data = auctions;
             }
             catch (Exception ex)
             {

@@ -1,5 +1,6 @@
 using AuctionService.Data;
 using AutoMapper;
+using AutoMapper.QueryableExtensions;
 using Microsoft.EntityFrameworkCore;
 
 namespace AuctionService.Repositories.AuctionsRepository
@@ -30,9 +31,15 @@ namespace AuctionService.Repositories.AuctionsRepository
             return true;
         }
 
-        public async Task<List<Auction>> GetAuctionsAsync()
+        public async Task<List<AuctionDto>> GetAuctionsAsync(string? date)
         {
-            return await _context.Auctions.Include(x => x.Item).ToListAsync();
+            var query = _context.Auctions.OrderBy(x => x.CreatedAt) .AsQueryable();
+
+            if(!string.IsNullOrEmpty(date)){
+                query = query.Where(x => x.UpdatedAt.CompareTo(DateTime.Parse(date).ToUniversalTime()) > 0);
+            }
+
+            return await query.ProjectTo<AuctionDto>(_mapper.ConfigurationProvider).ToListAsync();
         }
 
         public async Task<Auction> UpdateAuction(UpdateAuctionDto newAuction)

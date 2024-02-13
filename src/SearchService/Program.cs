@@ -15,6 +15,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<IItemSearchRepository, ItemSearchRepository>();
 builder.Services.AddScoped<IItemSearchService, ItemSearchService>();
+builder.Services.AddHttpClient<AuctionServiceHttpClient>();
 
 var app = builder.Build();
 
