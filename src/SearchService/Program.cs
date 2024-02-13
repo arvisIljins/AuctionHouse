@@ -1,7 +1,7 @@
-using MongoDB.Driver;
-using MongoDB.Entities;
+using System.Net;
+using Polly;
+using Polly.Extensions.Http;
 using SearchService.Data;
-using SearchService.Models;
 using SearchService.Repositories.ItemSearchRepository;
 using SearchService.Service.SearchItemService;
 
@@ -15,7 +15,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<IItemSearchRepository, ItemSearchRepository>();
 builder.Services.AddScoped<IItemSearchService, ItemSearchService>();
-builder.Services.AddHttpClient<AuctionServiceHttpClient>();
+builder.Services.AddHttpClient<AuctionServiceHttpClient>().AddPolicyHandler(GetPolicy());
 
 var app = builder.Build();
 
@@ -30,12 +30,21 @@ app.UseAuthorization();
 
 app.MapControllers();
 
-try
-{
- await DBInitializer.InitDb(app);
-} catch (Exception e)
-{
-    Console.WriteLine(e);
-};
+app.Lifetime.ApplicationStarted.Register(async () => {
+    try
+    {
+        await DBInitializer.InitDb(app);
+    } 
+    catch (Exception e)
+    {
+        Console.WriteLine(e);
+    };
+});
 
 app.Run();
+
+static IAsyncPolicy<HttpResponseMessage> GetPolicy() 
+=> HttpPolicyExtensions
+.HandleTransientHttpError()
+.OrResult(msg => msg.StatusCode == HttpStatusCode.NotFound)
+.WaitAndRetryForeverAsync(_ => TimeSpan.FromSeconds(3));
