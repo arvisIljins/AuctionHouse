@@ -1,3 +1,4 @@
+using Contracts.Models;
 using SearchService.Models;
 using SearchService.Repositories.ItemSearchRepository;
 

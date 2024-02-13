@@ -1,6 +1,6 @@
-using AuctionService.Models;
 using AuctionService.Repositories.AuctionsRepository;
 using AutoMapper;
+using Contracts.Models;
 
 namespace AuctionService.Services.AuctionService
 {

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace AuctionService.Models
+namespace Contracts.Models
 {
     public class ServiceResponse<T>
     {

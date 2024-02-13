@@ -1,3 +1,4 @@
+using Contracts.Models;
 using SearchService.Models;
 
 namespace SearchService.Service.SearchItemService
