@@ -7,5 +7,15 @@ services:
       - 5432:5432
     volumes:
       - pddata:/var/lib/postgresql/data
+  mongodb:
+    image: mongo
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=arvis
+      - MONGO_INITDB_ROOT_PASSWORD=arxarx
+    ports:
+      - 27017:27017
+    volumes:
+      - mongodata:/var/lin/mongodb/data
 volumes:
   pddata:
+  mongodata:
