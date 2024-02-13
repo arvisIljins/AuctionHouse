@@ -15,7 +15,7 @@ namespace SearchService.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<SearchList>> SearchItem(SearchRequest searchRequest)
+        public async Task<ActionResult<SearchList>> SearchItem([FromQuery] SearchRequest searchRequest)
         {
             return Ok(await _itemSearchService.SearchItems(searchRequest));
         }
