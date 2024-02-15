@@ -1,6 +1,8 @@
 using AuctionService.Data;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
+using Contracts.Models;
+using MassTransit;
 using Microsoft.EntityFrameworkCore;
 
 namespace AuctionService.Repositories.AuctionsRepository
@@ -9,15 +11,20 @@ namespace AuctionService.Repositories.AuctionsRepository
     {
     private readonly AuctionDbContext _context;
     private readonly IMapper _mapper;
-        public AuctionsRepository(AuctionDbContext context, IMapper mapper)
+    private readonly IPublishEndpoint  _publishEndpoint;
+        public AuctionsRepository(AuctionDbContext context, IMapper mapper, IPublishEndpoint publishEndpoint)
         {
             _context = context;
             _mapper = mapper;
+            _publishEndpoint = publishEndpoint;
         }
 
         public async Task<Auction> CreateAuction(Auction auction)
         {
             _context.Auctions.Add(auction);
+            var auctionForResponse = _mapper.Map<AuctionDto>(auction);
+            var auctionForServiceBus =  _mapper.Map<AuctionCreated>(auctionForResponse);
+            await _publishEndpoint.Publish(auctionForServiceBus);
             await _context.SaveChangesAsync();
             return auction; 
         }
@@ -59,6 +66,11 @@ namespace AuctionService.Repositories.AuctionsRepository
            
             await _context.SaveChangesAsync();
             return updatedAuction; 
+        }
+
+        public async Task SaveChangesAsync()
+        {
+            await _context.SaveChangesAsync();
         }
     }
 }

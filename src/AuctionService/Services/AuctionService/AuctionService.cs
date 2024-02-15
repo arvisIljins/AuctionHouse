@@ -1,6 +1,7 @@
 using AuctionService.Repositories.AuctionsRepository;
 using AutoMapper;
 using Contracts.Models;
+using MassTransit;
 
 namespace AuctionService.Services.AuctionService
 {
@@ -8,10 +9,12 @@ namespace AuctionService.Services.AuctionService
     {
         private readonly IMapper _mapper;
         private readonly IAuctionsRepository _auctionRepository;
-        public AuctionService(IMapper mapper, IAuctionsRepository auctionRepository)
+        private readonly IPublishEndpoint  _publishEndpoint;
+        public AuctionService(IMapper mapper, IAuctionsRepository auctionRepository, IPublishEndpoint publishEndpoint)
         {
             _mapper = mapper;
             _auctionRepository = auctionRepository;
+            _publishEndpoint = publishEndpoint;
         }
 
         public async Task<ServiceResponse<AuctionDto>> CreateAuction(CreateAuctionDto auctionDto)
@@ -22,7 +25,8 @@ namespace AuctionService.Services.AuctionService
                 var auction = _mapper.Map<Auction>(auctionDto);
                 auction.Seller = "Test";
                 var newAuction = await _auctionRepository.CreateAuction(auction);
-                serviceResponse.Data = _mapper.Map<AuctionDto>(newAuction);
+                var auctionForResponse = _mapper.Map<AuctionDto>(newAuction);
+                serviceResponse.Data = auctionForResponse;
             }
             catch (Exception ex)
             {

@@ -2,6 +2,7 @@ using System.Net;
 using MassTransit;
 using Polly;
 using Polly.Extensions.Http;
+using SearchService.Consumers;
 using SearchService.Data;
 using SearchService.Repositories.ItemSearchRepository;
 using SearchService.Service.SearchItemService;
@@ -17,8 +18,13 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<IItemSearchRepository, ItemSearchRepository>();
 builder.Services.AddScoped<IItemSearchService, ItemSearchService>();
 builder.Services.AddHttpClient<AuctionServiceHttpClient>().AddPolicyHandler(GetPolicy());
+builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddMassTransit(x => 
 {
+    x.AddConsumersFromNamespaceContaining<AuctionCreatedConsumer>();
+
+    x.SetEndpointNameFormatter(new KebabCaseEndpointNameFormatter("search", false));
+    
     x.UsingRabbitMq((context, cfg) => 
     {
         cfg.ConfigureEndpoints(context);
@@ -38,16 +44,16 @@ app.UseAuthorization();
 
 app.MapControllers();
 
-app.Lifetime.ApplicationStarted.Register(async () => {
-    try
-    {
-        await DBInitializer.InitDb(app);
-    } 
-    catch (Exception e)
-    {
-        Console.WriteLine(e);
-    };
-});
+// app.Lifetime.ApplicationStarted.Register(async () => {
+//     try
+//     {
+//         await DBInitializer.InitDb(app);
+//     } 
+//     catch (Exception e)
+//     {
+//         Console.WriteLine(e);
+//     };
+// });
 
 app.Run();
 

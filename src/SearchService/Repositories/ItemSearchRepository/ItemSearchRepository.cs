@@ -14,7 +14,6 @@ namespace SearchService.Repositories.ItemSearchRepository
             }  
             query.PageNumber(searchRequest.PageNumber);
             query.PageSize(searchRequest.PageSize);
-
             query = searchRequest.OrderBy switch
             {
                 "createdAt" => query.Sort(x => x.Ascending(a => a.CreatedAt)),
@@ -23,6 +22,7 @@ namespace SearchService.Repositories.ItemSearchRepository
                 _ => query.Sort(x => x.Ascending(a => a.EndDate))
             };
 
+            if(!string.IsNullOrEmpty(searchRequest.FilterBy)){
              query = searchRequest.FilterBy switch
             {
                 "finished" => query.Match(x => x.EndDate < DateTime.UtcNow),
@@ -30,7 +30,7 @@ namespace SearchService.Repositories.ItemSearchRepository
                     && x.EndDate > DateTime.UtcNow),
                 _ => query.Match(x => x.EndDate > DateTime.UtcNow),
             };
-
+            }
             if(!string.IsNullOrEmpty(searchRequest.Seller)) {
                  query.Match(x => x.Seller == searchRequest.Seller);
             }
