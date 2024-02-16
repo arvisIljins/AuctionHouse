@@ -34,6 +34,7 @@ namespace AuctionService.Repositories.AuctionsRepository
              var auction = await _context.Auctions.FindAsync(id) 
                 ?? throw new Exception($"{id} - not found item with such id");
                 _context.Auctions.Remove(auction);
+            await _publishEndpoint.Publish<AuctionDelete>(new { Id = auction.Id });
             await _context.SaveChangesAsync();
             return true;
         }
@@ -50,8 +51,7 @@ namespace AuctionService.Repositories.AuctionsRepository
         }
 
         public async Task<Auction> UpdateAuction(UpdateAuctionDto newAuction)
-        {
-        
+        {  
             var updatedAuction = await _context.Auctions
                 .Include(c => c.Item)
                 .FirstOrDefaultAsync(c => c.Id == newAuction.Id);
@@ -63,14 +63,10 @@ namespace AuctionService.Repositories.AuctionsRepository
             updatedAuction.Item.Description = newAuction.Description ?? updatedAuction.Item.Description;
             updatedAuction.Item.Tags = newAuction.Tags ?? updatedAuction.Item.Tags;
             updatedAuction.ReservePrice = newAuction.ReservePrice ?? updatedAuction.ReservePrice;
-           
+            var publishAuction = _mapper.Map<AuctionUpdated>(updatedAuction);
+            await _publishEndpoint.Publish(publishAuction);
             await _context.SaveChangesAsync();
             return updatedAuction; 
-        }
-
-        public async Task SaveChangesAsync()
-        {
-            await _context.SaveChangesAsync();
         }
     }
 }
