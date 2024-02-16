@@ -17,16 +17,6 @@ namespace SearchService.Data
             .Key(x => x.Description, KeyType.Text)
             .Key(x => x.Tags, KeyType.Text)
             .CreateAsync();
-
-            var count = await DB.CountAsync<Item>();
-            
-            using var scope = app.Services.CreateScope();
-            var httpClient = scope.ServiceProvider.GetRequiredService<AuctionServiceHttpClient>();
-            var items = await httpClient.GetItemsForSearchDb();
-            
-            if(items.Count > 0) {
-                await DB.SaveAsync(items);
-            }
         }
     }
 }
