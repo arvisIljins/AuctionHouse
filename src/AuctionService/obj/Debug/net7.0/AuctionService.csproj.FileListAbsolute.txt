@@ -54,3 +54,13 @@
 /Users/arvisiljins/Desktop/projects/AuctionHouse/src/AuctionService/bin/Debug/net7.0/Contracts.dll
 /Users/arvisiljins/Desktop/projects/AuctionHouse/src/AuctionService/bin/Debug/net7.0/Contracts.pdb
 /Users/arvisiljins/Desktop/projects/AuctionHouse/src/AuctionService/bin/Debug/net7.0/MassTransit.EntityFrameworkCoreIntegration.dll
+/Users/arvisiljins/Desktop/projects/AuctionHouse/src/AuctionService/bin/Debug/net7.0/Microsoft.AspNetCore.Authentication.JwtBearer.dll
+/Users/arvisiljins/Desktop/projects/AuctionHouse/src/AuctionService/bin/Debug/net7.0/Microsoft.IdentityModel.JsonWebTokens.dll
+/Users/arvisiljins/Desktop/projects/AuctionHouse/src/AuctionService/bin/Debug/net7.0/Microsoft.IdentityModel.Logging.dll
+/Users/arvisiljins/Desktop/projects/AuctionHouse/src/AuctionService/bin/Debug/net7.0/Microsoft.IdentityModel.Protocols.dll
+/Users/arvisiljins/Desktop/projects/AuctionHouse/src/AuctionService/bin/Debug/net7.0/Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
+/Users/arvisiljins/Desktop/projects/AuctionHouse/src/AuctionService/bin/Debug/net7.0/Microsoft.IdentityModel.Tokens.dll
+/Users/arvisiljins/Desktop/projects/AuctionHouse/src/AuctionService/bin/Debug/net7.0/System.IdentityModel.Tokens.Jwt.dll
+/Users/arvisiljins/Desktop/projects/AuctionHouse/src/AuctionService/bin/Debug/net7.0/Scrutor.dll
+/Users/arvisiljins/Desktop/projects/AuctionHouse/src/AuctionService/bin/Debug/net7.0/Swashbuckle.AspNetCore.Filters.dll
+/Users/arvisiljins/Desktop/projects/AuctionHouse/src/AuctionService/bin/Debug/net7.0/Swashbuckle.AspNetCore.Filters.Abstractions.dll

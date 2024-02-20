@@ -1,4 +1,5 @@
 using AuctionService.Data;
+using AuctionService.Services.IdentityService;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using Contracts.Models;
@@ -12,11 +13,13 @@ namespace AuctionService.Repositories.AuctionsRepository
     private readonly AuctionDbContext _context;
     private readonly IMapper _mapper;
     private readonly IPublishEndpoint  _publishEndpoint;
-        public AuctionsRepository(AuctionDbContext context, IMapper mapper, IPublishEndpoint publishEndpoint)
+    private readonly IIdentityService _identityService;
+        public AuctionsRepository(AuctionDbContext context, IMapper mapper, IPublishEndpoint publishEndpoint, IIdentityService identityService)
         {
             _context = context;
             _mapper = mapper;
             _publishEndpoint = publishEndpoint;
+            _identityService = identityService;
         }
 
         public async Task<Auction> CreateAuction(Auction auction)
@@ -33,6 +36,8 @@ namespace AuctionService.Repositories.AuctionsRepository
         {
              var auction = await _context.Auctions.FindAsync(id) 
                 ?? throw new Exception($"{id} - not found item with such id");
+            var currentUser = _identityService.GetUserName();
+            if(auction.Seller != currentUser) throw new Exception($"{currentUser} - not permission for this auction");
                 _context.Auctions.Remove(auction);
             await _publishEndpoint.Publish<AuctionDelete>(new { Id = auction.Id });
             await _context.SaveChangesAsync();
@@ -55,8 +60,11 @@ namespace AuctionService.Repositories.AuctionsRepository
             var updatedAuction = await _context.Auctions
                 .Include(c => c.Item)
                 .FirstOrDefaultAsync(c => c.Id == newAuction.Id);
+            var currentUser = _identityService.GetUserName();
+
+            if(updatedAuction?.Seller != currentUser) throw new Exception($"This auction is forbidden");
         
-            if(updatedAuction is null || updatedAuction.Item is null)  throw new Exception($"Characters Id is incorrect");
+            if(updatedAuction is null || updatedAuction.Item is null)  throw new Exception($"Auction Id is incorrect");
 
             updatedAuction.Item.ImageUrl = newAuction.ImageUrl ?? updatedAuction.Item.ImageUrl;
             updatedAuction.Item.Title = newAuction.Title ?? updatedAuction.Item.Title;
