@@ -1,3 +1,4 @@
+using AuctionService.Consumers;
 using AuctionService.Data;
 using AuctionService.Repositories.AuctionsRepository;
 using AuctionService.Services.AuctionService;
@@ -58,8 +59,19 @@ builder.Services.AddScoped<IAuctionService, AuctionService.Services.AuctionServi
 builder.Services.AddScoped<IAuctionsRepository, AuctionsRepository>();
 builder.Services.AddScoped<IIdentityService, IdentityService>();
 builder.Services.AddHttpContextAccessor();
-var app = builder.Build();
+builder.Services.AddMassTransit(x => 
+{
+    x.AddConsumersFromNamespaceContaining<BidPlacedConsumer>();
+    x.AddConsumersFromNamespaceContaining<AuctionFinishedConsumer>();
 
+    x.SetEndpointNameFormatter(new KebabCaseEndpointNameFormatter("auction", false));
+    
+    x.UsingRabbitMq((context, cfg) => 
+    {
+        cfg.ConfigureEndpoints(context);
+    });
+});
+var app = builder.Build();
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
