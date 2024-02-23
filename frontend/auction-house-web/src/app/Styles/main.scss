@@ -1,0 +1,18 @@
+
+html {
+  -ms-overflow-style: none;  
+  scrollbar-width: none; 
+  :-webkit-scrollbar {
+    display: none;
+  } 
+}
+
+body {
+    font: 75% Helvetica, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: $body-color;
+    overflow-x: hidden;
+    overflow-y: scroll;
+  }
+  

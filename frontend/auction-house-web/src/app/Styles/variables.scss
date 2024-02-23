@@ -1,0 +1,37 @@
+$body-color: #000000;
+$dark-text-color: #294F6D;
+$text-color: hsla(0, 0%, 100%, 0.5);
+$dark-main-color: #18296c;
+$light-main-color: #5f6fad;
+$normal-main-color: #123652;
+$error-color: #FF5854;
+$success-color: #A9EC4E;
+$title-color: white;
+$warning-color: #DF7100;
+
+
+@mixin shadow {
+    -webkit-box-shadow: 10px 11px 48px 0px $dark-main-color;
+    -moz-box-shadow: 10px 11px 48px 0px $dark-main-color;
+    box-shadow: 10px 11px 48px 0px $dark-main-color;
+  }
+
+@mixin background {
+background: linear-gradient(71deg, #080509, #1a171c, #080509);
+}
+
+@mixin borders {
+    background: linear-gradient(71deg, #0c0a0e, $light-main-color, #0c0a0e);
+    }
+
+@mixin borders-green {
+    background: linear-gradient(71deg, #0c0a0e, $success-color, #0c0a0e);
+    }
+
+
+    
+
+
+
+
+

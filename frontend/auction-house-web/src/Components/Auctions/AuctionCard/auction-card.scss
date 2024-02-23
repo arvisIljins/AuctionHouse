@@ -1,0 +1,82 @@
+@import '../../../app/Styles/variables.scss';
+
+.cards {
+    cursor: pointer;
+    flex-grow: 1;
+    flex-basis: 30rem;
+    max-width: 30rem;
+    width: 100%;
+    padding: 20px;
+    
+    @media screen and (max-width: 1060px) {
+        flex-basis: 100%;
+        max-width: 100%;
+    }
+
+    &__image{
+        border-radius: 1rem 0 1rem 0 ;
+    }
+
+    &__row {
+       display: flex; 
+       gap: 1rem;
+    }
+
+    &__column {
+        display: flex; 
+        flex-direction: column;
+     }
+  
+    &__title {
+        font-weight: 600;
+        color: $title-color;
+        letter-spacing: -0.02em;
+        font-style: normal;
+        font-size: 28px;
+        margin: 0;
+      }
+
+    &__description {
+        margin: 0;
+        font-weight: 600;
+        line-height: 32px;
+        color: $text-color;
+        font-size: 16px;
+      }
+  
+    
+  &__container {
+    position: relative;
+    border: 2px solid transparent;
+    @include background;
+    background-clip: padding-box;
+    border-radius: 45px;
+    padding: 1.5rem;
+  }
+  
+  &__blue-box {
+    position: relative;
+    ::after {
+        position: absolute;
+        top: -1px;
+        bottom: -1px;
+        left: -1px;
+        right: -1px;
+        content: "";
+        z-index: -1;
+        border-radius: 45px;
+      }
+
+    ::after {
+        @include borders;  
+      }
+    }
+
+    :hover {
+      transition: color 0.3 ease-in-out;
+      ::after {
+        @include borders-green; 
+      }
+
+    }
+}

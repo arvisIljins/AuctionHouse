@@ -1,0 +1,43 @@
+@import '../../app/Styles/variables.scss';
+
+.header {
+    // @include shadow;
+    position: -webkit-sticky;
+    position: sticky;
+    top: 0px;
+    z-index: 50;
+    &__body {
+      display: flex;
+      justify-content: space-between;
+      color: $text-color;
+      align-items: center;
+      font-size: 2rem;
+      padding: 1rem;
+      @include background;
+      
+      &__logo-section {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          gap: 1rem
+        }
+
+        &__blue-box {
+          position: relative;
+          :after {
+            position: absolute;
+            top: -1px;
+            bottom: -1px;
+            left: -1px;
+            right: -1px;
+            content: "";
+            z-index: -1;
+          }
+          :after {
+            @include borders;
+          }
+        }
+    }
+}
+
+
