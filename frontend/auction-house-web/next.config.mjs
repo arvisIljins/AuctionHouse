@@ -4,7 +4,7 @@ const nextConfig = {
     includePaths: [path.join(process.cwd(), "styles")],
   },
   images: {
-    domains: ["images.pexels.com"],
+    domains: ["images.pexels.com", "www.pexels.com"],
   },
 };
 

@@ -1,0 +1,40 @@
+.container {
+    position: absolute;
+    bottom: 0;
+    z-index: 50;
+    width: 100%;
+    height: 74px;
+
+    &__pagination {
+        cursor: pointer;
+        height: 60px;
+        background: rgba(255, 255, 255, 0.05);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        backdrop-filter: blur(3px);
+        border-radius: 2px;
+        
+        &__li {
+            list-style-type: none;
+            display: inline-block;
+            a {
+                position: relative;
+                padding: 20px 25px;
+                text-decoration: none;
+                color: #fff;
+                font-weight: 500;        
+              }
+              :hover{
+                background: rgba(255, 255, 255, 0.2);
+            }
+           
+        }
+        &__active{
+            a{
+            background: rgba(255, 255, 255, 0.2);
+            }
+        }
+    }
+}
+  

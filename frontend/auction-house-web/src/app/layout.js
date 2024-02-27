@@ -1,5 +1,6 @@
 import Navbar from "@/Components/Navbar/Navbar";
 import "./Styles/globals.scss";
+import Pagination from "@/Components/Pagintaion/Pagination";
 
 export const metadata = {
   title: "Auction House",
@@ -11,7 +12,7 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <body>
         <Navbar />
-        <main>{children}</main>
+        {children}
       </body>
     </html>
   );
