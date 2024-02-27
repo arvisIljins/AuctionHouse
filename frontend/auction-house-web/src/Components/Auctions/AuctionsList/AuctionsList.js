@@ -11,17 +11,19 @@ const AuctionsList = () => {
   const [auctions, setAuctions] = useState([]);
   const [selectedPage, setSelectedPage] = useState(1);
   const [pageCount, setPageCount] = useState(0);
+  const [pageSize, setSageSize] = useState(4);
 
   useEffect(() => {
     setAuctions([]);
-    getData(selectedPage).then((result) => {
+    setSelectedPage(1);
+    getData(selectedPage, pageSize).then((result) => {
       setAuctions(result.data.items);
       setPageCount(result.data.pageCount);
     });
-  }, [selectedPage]);
+  }, [selectedPage, pageSize]);
   return (
     <>
-      {/* <Filters /> */}
+      <Filters setSageSize={setSageSize} pageSize={pageSize} />
       <div className="list">
         {map(auctions, (auction) => {
           return <AuctionCard key={auction.title} auction={auction} />;
