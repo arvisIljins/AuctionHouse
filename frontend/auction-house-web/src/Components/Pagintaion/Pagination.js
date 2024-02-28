@@ -2,28 +2,39 @@
 import React from "react";
 import "./pagination.scss";
 import { map } from "lodash";
-const Pagination = (props) => {
-  const { selectedPage, pageCount, setSelectedPage } = props;
+import { useParamsStore } from "@/app/Hooks/UseParamStore";
+import { shallow } from "zustand/shallow";
+const Pagination = ({ pageCount }) => {
+  const params = useParamsStore(
+    (state) => ({
+      pageNumber: state.pageNumber,
+    }),
+    shallow
+  );
+  const setParams = useParamsStore((state) => state.setParams);
+  const setPageNumber = (pageNumber) => {
+    setParams({ pageNumber });
+  };
   const pages = Array.from({ length: pageCount }, (_, i) => i + 1);
   return (
     <div className="container">
       <ul className="container__pagination">
         <li className="container__pagination__li">
-          <a onClick={() => setSelectedPage(selectedPage - 1)}>Prev</a>
+          <a onClick={() => setPageNumber(params.pageNumber - 1)}>Prev</a>
         </li>
         {map(pages, (item) => {
           return (
             <li
               key={item}
               className={`container__pagination__li ${
-                item === selectedPage && "container__pagination__active"
+                item === params.pageNumber && "container__pagination__active"
               }`}>
-              <a onClick={() => setSelectedPage(item)}>{item}</a>
+              <a onClick={() => setPageNumber(item)}>{item}</a>
             </li>
           );
         })}
         <li className="container__pagination__li">
-          <a onClick={() => setSelectedPage(selectedPage + 1)}>Next</a>
+          <a onClick={() => setPageNumber(params.pageNumber + 1)}>Next</a>
         </li>
       </ul>
     </div>

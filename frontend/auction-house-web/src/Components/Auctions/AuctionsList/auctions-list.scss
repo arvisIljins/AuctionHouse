@@ -5,10 +5,10 @@
     width: 100%;
     display: flex;
     flex-wrap: wrap;
-    gap: 20px; 
+    gap: 1.5rem; 
     overflow-y: scroll;
     justify-content: center;
-    align-items: flex-start;
+    align-content: flex-start;
     -ms-overflow-style: none;  
     scrollbar-width: none; 
     :-webkit-scrollbar {

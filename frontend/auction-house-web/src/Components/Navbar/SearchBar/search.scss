@@ -1,0 +1,36 @@
+@import '../../../app/Styles/variables.scss';
+.search-container{
+    background: $dropdown-color-light;
+    width: 40rem;
+    height: 1rem;
+    border-radius: 3rem;
+    padding: 1rem 2rem;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    transition: 0.8s;
+    -webkit-box-shadow: -14px 15px 29px -14px rgba(255,255,255,.2);
+    -moz-box-shadow: -14px 15px 29px -14px rgba(255,255,255,.2);
+    box-shadow: -14px 15px 29px -14px rgba(255,255,255,.2);
+}
+
+.search-container .search-input{
+    width: 40rem;
+    height: 1rem;
+    color: $title-color;
+    background: transparent;
+    border: none;
+    outline:none;
+    font-weight: 500;
+    font-size: 1rem;
+    transition: 0.8s;
+}
+
+.search-button{
+  cursor: pointer;
+}
+
+.search-button:hover {
+    transition: transform 0.3s ease-in-out;
+    color: white;
+  }

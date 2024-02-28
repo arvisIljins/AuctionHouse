@@ -42,7 +42,6 @@ a {
     background-color: $dropdown-color-light;
   }
   
-  
   .dd-input {
     display: none;
   }
@@ -84,5 +83,8 @@ a {
 
   .form-control{
     padding-right: 0.5rem;
+    input {
+      cursor: pointer;
+    }
   }
   

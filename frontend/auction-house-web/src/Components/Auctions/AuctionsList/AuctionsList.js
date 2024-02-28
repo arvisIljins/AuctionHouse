@@ -6,34 +6,47 @@ import "./auctions-list.scss";
 import Pagination from "@/Components/Pagintaion/Pagination";
 import { getData } from "@/app/services/auctionsService";
 import Filters from "@/Components/Filters/Filters";
+import { useParamsStore } from "@/app/Hooks/UseParamStore";
+import { shallow } from "zustand/shallow";
+import queryString from "query-string";
+import Loader from "@/Components/Loader/Loader";
 
 const AuctionsList = () => {
-  const [auctions, setAuctions] = useState([]);
-  const [selectedPage, setSelectedPage] = useState(1);
+  const [data, setData] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [pageCount, setPageCount] = useState(0);
-  const [pageSize, setSageSize] = useState(4);
+
+  const params = useParamsStore(
+    (state) => ({
+      pageNumber: state.pageNumber,
+      pageSize: state.pageSize,
+      searchTerm: state.searchTerm,
+    }),
+    shallow
+  );
+
+  const url = queryString.stringifyUrl({ url: "", query: params });
 
   useEffect(() => {
-    setAuctions([]);
-    setSelectedPage(1);
-    getData(selectedPage, pageSize).then((result) => {
-      setAuctions(result.data.items);
+    setData([]);
+    getData(url).then((result) => {
+      setData(result.data.items);
       setPageCount(result.data.pageCount);
+      setLoading(false);
     });
-  }, [selectedPage, pageSize]);
+  }, [url]);
   return (
     <>
-      <Filters setSageSize={setSageSize} pageSize={pageSize} />
-      <div className="list">
-        {map(auctions, (auction) => {
-          return <AuctionCard key={auction.title} auction={auction} />;
-        })}
-      </div>
-      <Pagination
-        pageCount={pageCount}
-        selectedPage={selectedPage}
-        setSelectedPage={setSelectedPage}
-      />
+      <Filters />
+      {loading && <Loader />}
+      {!loading && (
+        <div className="list">
+          {map(data, (auction) => {
+            return <AuctionCard key={auction.title} auction={auction} />;
+          })}
+        </div>
+      )}
+      <Pagination pageCount={pageCount} />
     </>
   );
 };

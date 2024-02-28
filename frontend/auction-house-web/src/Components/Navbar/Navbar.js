@@ -1,6 +1,7 @@
 import React from "react";
 import { BsHouses } from "react-icons/bs";
 import "./navbar.scss";
+import Search from "./SearchBar/Search";
 
 const Navbar = () => {
   return (
@@ -10,7 +11,9 @@ const Navbar = () => {
           <BsHouses size={34} />
           <div className="">Auction House</div>
         </div>
-        <div>midle</div>
+        <div>
+          <Search />
+        </div>
         <div>right</div>
       </div>
     </header>
