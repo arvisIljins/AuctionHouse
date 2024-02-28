@@ -1,4 +1,4 @@
-
+@import '../../../app/Styles/variables.scss';
 
 .list{ 
     height: 85%;
@@ -14,4 +14,13 @@
     :-webkit-scrollbar {
       display: none;
     } 
+}
+
+.no-results{
+  height: 100%;
+  width: 100%;
+  color: $text-color;
+  display: flex;
+  justify-content: center;
+  align-content: center;
 }

@@ -21,6 +21,8 @@ const AuctionsList = () => {
       pageNumber: state.pageNumber,
       pageSize: state.pageSize,
       searchTerm: state.searchTerm,
+      orderBy: state.orderBy,
+      filterBy: state.filterBy,
     }),
     shallow
   );
@@ -35,18 +37,21 @@ const AuctionsList = () => {
       setLoading(false);
     });
   }, [url]);
+
+  const showList = !loading && data.length > 0;
   return (
     <>
       <Filters />
       {loading && <Loader />}
-      {!loading && (
+      {showList && (
         <div className="list">
           {map(data, (auction) => {
             return <AuctionCard key={auction.title} auction={auction} />;
           })}
         </div>
       )}
-      <Pagination pageCount={pageCount} />
+      {!showList && <h1 className="no-results">There is no result found</h1>}
+      {showList && <Pagination pageCount={pageCount} />}
     </>
   );
 };

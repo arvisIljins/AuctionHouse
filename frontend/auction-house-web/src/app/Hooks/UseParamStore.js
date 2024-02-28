@@ -6,6 +6,8 @@ const initialState = {
   pageCount: 1,
   searchTerm: "",
   searchValue: "",
+  orderBy: "createdAt",
+  filterBy: "",
 };
 
 export const useParamsStore = create((set) => ({
