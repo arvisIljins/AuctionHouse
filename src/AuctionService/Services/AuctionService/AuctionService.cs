@@ -2,7 +2,6 @@ using AuctionService.Repositories.AuctionsRepository;
 using AuctionService.Services.IdentityService;
 using AutoMapper;
 using Contracts.Models;
-using MassTransit;
 
 namespace AuctionService.Services.AuctionService
 {
@@ -10,13 +9,11 @@ namespace AuctionService.Services.AuctionService
     {
         private readonly IMapper _mapper;
         private readonly IAuctionsRepository _auctionRepository;
-        private readonly IPublishEndpoint  _publishEndpoint;
         private readonly IIdentityService _identityService;
-        public AuctionService(IMapper mapper, IAuctionsRepository auctionRepository, IPublishEndpoint publishEndpoint, IIdentityService identityService)
+        public AuctionService(IMapper mapper, IAuctionsRepository auctionRepository, IIdentityService identityService)
         {
             _mapper = mapper;
             _auctionRepository = auctionRepository;
-            _publishEndpoint = publishEndpoint;
             _identityService = identityService;
         }
 
