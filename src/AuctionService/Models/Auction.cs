@@ -13,4 +13,6 @@ public class Auction
     public DateTime EndDate { get; set; }  = DateTime.UtcNow;
     public Status Status { get; set; }
     public Item? Item { get; set; }
+
+    public bool HasReservedPrice() => ReservePrice > 0;
 }
