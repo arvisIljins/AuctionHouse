@@ -2,6 +2,7 @@ using AuctionService.Repositories.AuctionsRepository;
 using AuctionService.Services.IdentityService;
 using AutoMapper;
 using Contracts.Models;
+using MassTransit;
 
 namespace AuctionService.Services.AuctionService
 {
@@ -9,11 +10,13 @@ namespace AuctionService.Services.AuctionService
     {
         private readonly IMapper _mapper;
         private readonly IAuctionsRepository _auctionRepository;
+        private readonly IPublishEndpoint  _publishEndpoint;
         private readonly IIdentityService _identityService;
-        public AuctionService(IMapper mapper, IAuctionsRepository auctionRepository, IIdentityService identityService)
+        public AuctionService(IMapper mapper, IAuctionsRepository auctionRepository, IPublishEndpoint publishEndpoint, IIdentityService identityService)
         {
             _mapper = mapper;
             _auctionRepository = auctionRepository;
+            _publishEndpoint = publishEndpoint;
             _identityService = identityService;
         }
 
@@ -24,14 +27,17 @@ namespace AuctionService.Services.AuctionService
             {
                 var auction = _mapper.Map<Auction>(auctionDto);
                 auction.Seller = _identityService.GetUserName();
-                var newAuction = await _auctionRepository.CreateAuction(auction);
-                var auctionForResponse = _mapper.Map<AuctionDto>(newAuction);
+                var auctionForResponse = _mapper.Map<AuctionDto>(auction);
+                var auctionForServiceBus =  _mapper.Map<AuctionCreated>(auctionForResponse);
+                _auctionRepository.CreateAuction(auction);
+                await _publishEndpoint.Publish(auctionForServiceBus);
+                await _auctionRepository.SaveChangesAsync();
                 serviceResponse.Data = auctionForResponse;
             }
             catch (Exception ex)
             {
                 serviceResponse.Success = false;
-                serviceResponse.Message = $"Error retrieving auctions. Error - {ex}";
+                serviceResponse.Message = $"Error creating auctions. Error - {ex}";
             }
             return serviceResponse;
         }
@@ -41,7 +47,14 @@ namespace AuctionService.Services.AuctionService
             var serviceResponse = new ServiceResponse<string>();
             try
             {
-                var auctions = await _auctionRepository.DeleteAuction(id);
+                var auction = await _auctionRepository.GetAuctionsByIdAsync(id) 
+                ?? throw new Exception($"{id} - not found item with such id");
+                var currentUser = _identityService.GetUserName();
+                if(auction.Seller != currentUser) throw new Exception($"{currentUser} - not permission for this auction");
+                var auctionToDelete = _mapper.Map<Auction>(auction);
+                _auctionRepository.DeleteAuction(auctionToDelete);
+                await _publishEndpoint.Publish<AuctionDelete>(new { Id = auction.Id });
+                await _auctionRepository.SaveChangesAsync();
                 serviceResponse.Message = $"Auction deleted - id {id}";
             }
             catch (Exception ex)
@@ -73,8 +86,22 @@ namespace AuctionService.Services.AuctionService
             var serviceResponse = new ServiceResponse<AuctionDto>();
             try
             {
-                var newAuction = await _auctionRepository.UpdateAuction(auctionDto);
-                serviceResponse.Data = _mapper.Map<AuctionDto>(newAuction);
+            var updatedAuction = await _auctionRepository.GetAuctionsEntityByIdAsync(auctionDto.Id); 
+            var currentUser = _identityService.GetUserName();
+
+            if(updatedAuction?.Seller != currentUser) throw new Exception($"This auction is forbidden");
+        
+            if(updatedAuction is null || updatedAuction.Item is null)  throw new Exception($"Auction Id is incorrect");
+
+            updatedAuction.Item.ImageUrl = auctionDto.ImageUrl ?? updatedAuction.Item.ImageUrl;
+            updatedAuction.Item.Title = auctionDto.Title ?? updatedAuction.Item.Title;
+            updatedAuction.Item.Description = auctionDto.Description ?? updatedAuction.Item.Description;
+            updatedAuction.Item.Tags = auctionDto.Tags ?? updatedAuction.Item.Tags;
+            updatedAuction.ReservePrice = auctionDto.ReservePrice ?? updatedAuction.ReservePrice;
+            var publishAuction = _mapper.Map<AuctionUpdated>(updatedAuction);
+            await _publishEndpoint.Publish(publishAuction);
+            await _auctionRepository.SaveChangesAsync();
+            serviceResponse.Data = _mapper.Map<AuctionDto>(auctionDto);
             }
             catch (Exception ex)
             {

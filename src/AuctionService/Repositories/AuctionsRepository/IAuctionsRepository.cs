@@ -3,8 +3,10 @@ namespace AuctionService.Repositories.AuctionsRepository
     public interface IAuctionsRepository
     {
         Task<List<AuctionDto>> GetAuctionsAsync(string? date);
-        Task<Auction> CreateAuction(Auction auction);
-        Task<Auction> UpdateAuction(UpdateAuctionDto auction); 
-        Task<bool> DeleteAuction(Guid id); 
+        Task<AuctionDto> GetAuctionsByIdAsync(Guid id);
+        Task<Auction> GetAuctionsEntityByIdAsync(Guid id);
+        void CreateAuction(Auction auction);
+        Task<bool> SaveChangesAsync(); 
+        void DeleteAuction(Auction auction); 
     }
 }
