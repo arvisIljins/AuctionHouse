@@ -68,4 +68,134 @@ namespace AuctionService.UnitTests;
         Assert.IsType<ServiceResponse<AuctionDto>>(result);
     }
 
+    [Fact]
+    public async void CreateAuction_WithValidAuctionDto_ReturnSaveChangesAsyncSuccessFalse()
+    {
+        // arrange
+        var auction = _fixture.Create<CreateAuctionDto>();
+        _auctionRepository.Setup(repo => repo.CreateAuction(It.IsAny<Auction>()));
+        _auctionRepository.Setup(repo => repo.SaveChangesAsync()).ReturnsAsync(false);
+
+        //act
+        var result = await _auctionService.CreateAuction(auction);
+
+        // assert
+        Assert.False(result?.Success);
+        Assert.True(result?.Data is null);
+        Assert.IsType<ServiceResponse<AuctionDto>>(result);
+    }
+
+    [Fact]
+    public async void DeleteAuction_WithValidId_ReturnSuccess()
+    {
+        // arrange
+        var auction = _fixture.Build<Auction>().Without(x => x.Item).Create();
+        auction.Seller = "TestUser";
+        _auctionRepository.Setup(repo => repo.GetAuctionsEntityByIdAsync(It.IsAny<Guid>())).ReturnsAsync(auction);
+        _auctionRepository.Setup(repo => repo.SaveChangesAsync()).ReturnsAsync(true);
+
+        //act
+        var result = await _auctionService.DeleteAuction(auction.Id);
+
+        // assert
+        Assert.True(result?.Success);
+        Assert.True(result?.Message == $"Auction deleted - id {auction.Id}");
+        Assert.True(result?.Data is null);
+        Assert.IsType<ServiceResponse<string>>(result);
+    }
+
+    [Fact]
+    public async void DeleteAuction_WithInValidId_ReturnSuccessFalse()
+    {
+        // arrange
+        var auction = _fixture.Build<Auction>().Without(x => x.Item).Create();
+        auction.Seller = "TestUser";
+        var id = It.IsAny<Guid>();
+        _auctionRepository.Setup(repo => repo.GetAuctionsEntityByIdAsync(id)).Throws(new Exception($"{id} - not found item with such id"));
+        _auctionRepository.Setup(repo => repo.SaveChangesAsync()).ReturnsAsync(false);
+
+        //act
+        var result = await _auctionService.DeleteAuction(auction.Id);
+
+        // assert
+        Assert.False(result?.Success);
+        Assert.True(result?.Data is null);
+        Assert.IsType<ServiceResponse<string>>(result);
+    }
+
+    [Fact]
+    public async void DeleteAuction_WrongUser_ReturnSuccessFalse()
+    {
+        // arrange
+        var auction = _fixture.Build<Auction>().Without(x => x.Item).Create();
+        auction.Seller = "TestUser-wrong";
+        var id = It.IsAny<Guid>();
+        _auctionRepository.Setup(repo => repo.GetAuctionsEntityByIdAsync(It.IsAny<Guid>())).ReturnsAsync(auction);
+        _auctionRepository.Setup(repo => repo.SaveChangesAsync()).ReturnsAsync(true);
+
+        //act
+        var result = await _auctionService.DeleteAuction(auction.Id);
+
+        // assert
+        Assert.False(result?.Success);
+        Assert.True(result?.Data is null);
+        Assert.IsType<ServiceResponse<string>>(result);
+    }
+
+    [Fact]
+    public async void UpdateAuction_WithValidAuctionDto_ReturnAuctionsSuccess()
+    {
+        // arrange
+        var auction = _fixture.Build<Auction>().Without(x => x.Item).Create();
+        auction.Item = _fixture.Build<Item>().Without(x => x.Auction).Create();
+        auction.Seller = "TestUser";
+        var updateDto = _fixture.Create<UpdateAuctionDto>();
+        _auctionRepository.Setup(repo => repo.GetAuctionsEntityByIdAsync(It.IsAny<Guid>())).ReturnsAsync(auction);
+        _auctionRepository.Setup(repo => repo.SaveChangesAsync()).ReturnsAsync(true);
+        //act
+        var result = await _auctionService.UpdateAuction(updateDto);
+
+        // assert
+        Assert.NotNull(result.Data);
+        Assert.True(result?.Success);
+        Assert.IsType<ServiceResponse<AuctionDto>>(result);
+    }
+
+    [Fact]        
+    public async void UpdateAuction_WithInValidId_ReturnSuccessFalse()
+    {
+        // arrange
+        var auction = _fixture.Build<Auction>().Without(x => x.Item).Create();
+        auction.Item = _fixture.Build<Item>().Without(x => x.Auction).Create();
+        auction.Seller = "TestUser-wrong";
+        var updateDto = _fixture.Create<UpdateAuctionDto>();
+        _auctionRepository.Setup(repo => repo.GetAuctionsEntityByIdAsync(It.IsAny<Guid>())).ReturnsAsync(auction);
+        _auctionRepository.Setup(repo => repo.SaveChangesAsync()).ReturnsAsync(true);
+        //act
+        var result = await _auctionService.UpdateAuction(updateDto);
+
+        // assert
+        Assert.False(result?.Success);
+        Assert.True(result?.Data is null);
+        Assert.IsType<ServiceResponse<AuctionDto>>(result);
+    }
+
+    [Fact]        
+    public async void UpdateAuction_WithInvalidUser_ReturnAuctionsSuccessFalse()
+    {
+        // arrange
+        var auction = _fixture.Build<Auction>().Without(x => x.Item).Create();
+        auction.Item = _fixture.Build<Item>().Without(x => x.Auction).Create();
+        auction.Seller = "TestUser-wrong";
+        var updateDto = _fixture.Create<UpdateAuctionDto>();
+        _auctionRepository.Setup(repo => repo.GetAuctionsEntityByIdAsync(It.IsAny<Guid>())).Throws(new Exception($"Auction Id is incorrect"));
+        _auctionRepository.Setup(repo => repo.SaveChangesAsync()).ReturnsAsync(false);
+        //act
+        var result = await _auctionService.UpdateAuction(updateDto);
+
+        // assert
+        Assert.False(result?.Success);
+        Assert.True(result?.Data is null);
+        Assert.IsType<ServiceResponse<AuctionDto>>(result);
+    }
 }

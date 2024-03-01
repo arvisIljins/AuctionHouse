@@ -31,7 +31,10 @@ namespace AuctionService.Services.AuctionService
                 var auctionForServiceBus =  _mapper.Map<AuctionCreated>(auctionForResponse);
                 _auctionRepository.CreateAuction(auction);
                 await _publishEndpoint.Publish(auctionForServiceBus);
-                await _auctionRepository.SaveChangesAsync();
+                var saveChanges = await _auctionRepository.SaveChangesAsync();
+                if(!saveChanges){
+                    throw new Exception($"Auction is not saved");
+                }
                 serviceResponse.Data = auctionForResponse;
             }
             catch (Exception ex)
@@ -47,12 +50,11 @@ namespace AuctionService.Services.AuctionService
             var serviceResponse = new ServiceResponse<string>();
             try
             {
-                var auction = await _auctionRepository.GetAuctionsByIdAsync(id) 
+                var auction = await _auctionRepository.GetAuctionsEntityByIdAsync(id) 
                 ?? throw new Exception($"{id} - not found item with such id");
                 var currentUser = _identityService.GetUserName();
                 if(auction.Seller != currentUser) throw new Exception($"{currentUser} - not permission for this auction");
-                var auctionToDelete = _mapper.Map<Auction>(auction);
-                _auctionRepository.DeleteAuction(auctionToDelete);
+                _auctionRepository.DeleteAuction(auction);
                 await _publishEndpoint.Publish<AuctionDelete>(new { Id = auction.Id });
                 await _auctionRepository.SaveChangesAsync();
                 serviceResponse.Message = $"Auction deleted - id {id}";
@@ -91,7 +93,7 @@ namespace AuctionService.Services.AuctionService
 
             if(updatedAuction?.Seller != currentUser) throw new Exception($"This auction is forbidden");
         
-            if(updatedAuction is null || updatedAuction.Item is null)  throw new Exception($"Auction Id is incorrect");
+            if(updatedAuction is null || updatedAuction.Item is null) throw new Exception($"Auction Id is incorrect");
 
             updatedAuction.Item.ImageUrl = auctionDto.ImageUrl ?? updatedAuction.Item.ImageUrl;
             updatedAuction.Item.Title = auctionDto.Title ?? updatedAuction.Item.Title;
