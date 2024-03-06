@@ -36,7 +36,7 @@ public class AuctionsController : ControllerBase
 
     [Authorize]
     [HttpDelete("{id}")]
-    public async Task<ActionResult<AuctionDto>> DeleteAuction(Guid id)
+    public async Task<ActionResult<string>> DeleteAuction(Guid id)
     {
         return Ok(await _auctionService.DeleteAuction(id));
     }

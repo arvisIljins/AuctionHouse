@@ -14,6 +14,7 @@ namespace AuctionService.IntegrationTests
         private readonly CustomWebAppFactory _customWebAppFactory;
         private readonly HttpClient _httpClient;
         const string auctionId = "470fb15b-9371-4011-8bdb-c5b652edc205";
+        const string wrongId =  "c87b594f-338c-4d32-bc50-0d30e2973643";
 
         public AuctionControllerTests(CustomWebAppFactory customWebAppFactory)
         {
@@ -39,6 +40,20 @@ namespace AuctionService.IntegrationTests
                 Description = "test description",
                 Tags = "test tags",
                 ReservePrice = 1000,
+                EndDate = DateTime.UtcNow.AddDays(10)
+            };
+        }
+
+        private UpdateAuctionDto GetUpdateAuctionDto()
+        {
+            return new UpdateAuctionDto
+            {
+                Id = Guid.Parse("470fb15b-9371-4011-8bdb-c5b652edc205"),
+                ImageUrl = "image",
+                Title = "tests title update",
+                Description = "test description update",
+                Tags = "test tags update",
+                ReservePrice = 2000,
                 EndDate = DateTime.UtcNow.AddDays(10)
             };
         }
@@ -91,6 +106,127 @@ namespace AuctionService.IntegrationTests
             Assert.NotNull(createAuctionResult.Data);
             Assert.Equal("Arvis", createAuctionResult.Data.Seller);
             Assert.IsType<ServiceResponse<AuctionDto>>(createAuctionResult);
+        }
+
+        [Fact]
+        public async void UpdateAuctions_WithAuth_ReturnSuccess()
+        {
+            // arrange
+            var auction = GetUpdateAuctionDto();
+            _httpClient.SetFakeJwtBearerToken(AuthenticationHelper.GetBearerForUser("Arvis"));
+
+            //act
+            var response = await _httpClient.PutAsJsonAsync("api/auctions", auction);
+
+            // assert
+            response.EnsureSuccessStatusCode();
+            Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+
+            var updatedAuctionResult = await response.Content.ReadFromJsonAsync<ServiceResponse<AuctionDto>>();
+            Assert.NotNull(updatedAuctionResult);
+            Assert.True(updatedAuctionResult.Success);
+            Assert.NotNull(updatedAuctionResult.Data);
+            Assert.IsType<ServiceResponse<AuctionDto>>(updatedAuctionResult);
+        }
+
+        [Fact]
+        public async void UpdateAuctions_WithWrongAuth_ReturnSuccessFalse()
+        {
+            // arrange
+            var auction = GetUpdateAuctionDto();
+            _httpClient.SetFakeJwtBearerToken(AuthenticationHelper.GetBearerForUser("Arvis-fake"));
+
+            //act
+            var response = await _httpClient.PutAsJsonAsync("api/auctions", auction);
+
+            // assert
+            response.EnsureSuccessStatusCode();
+            Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+
+            var updatedAuctionResult = await response.Content.ReadFromJsonAsync<ServiceResponse<AuctionDto>>();
+            Assert.NotNull(updatedAuctionResult);
+            Assert.False(updatedAuctionResult.Success);
+            Assert.True(updatedAuctionResult.Data == null);
+            Assert.IsType<ServiceResponse<AuctionDto>>(updatedAuctionResult);
+        }
+
+        [Fact]
+        public async void UpdateAuctions_WithWrongId_ReturnSuccessFalse()
+        {
+            // arrange
+            var auction = GetUpdateAuctionDto();
+            auction.Id = Guid.Parse(wrongId);
+            _httpClient.SetFakeJwtBearerToken(AuthenticationHelper.GetBearerForUser("Arvis"));
+
+            //act
+            var response = await _httpClient.PutAsJsonAsync("api/auctions", auction);
+
+            // assert
+            response.EnsureSuccessStatusCode();
+            Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+
+            var updatedAuctionResult = await response.Content.ReadFromJsonAsync<ServiceResponse<AuctionDto>>();
+            Assert.NotNull(updatedAuctionResult);
+            Assert.False(updatedAuctionResult.Success);
+            Assert.True(updatedAuctionResult.Data == null);
+            Assert.IsType<ServiceResponse<AuctionDto>>(updatedAuctionResult);
+        }
+
+        [Fact]
+        public async void DeleteAuctions_CorrectIdAndUser_ReturnSuccess()
+        {
+            // arrange
+            _httpClient.SetFakeJwtBearerToken(AuthenticationHelper.GetBearerForUser("Arvis"));
+
+            //act
+            var response = await _httpClient.DeleteAsync($"api/auctions/{auctionId}");
+
+            // assert
+            response.EnsureSuccessStatusCode();
+            Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+
+            var deletedAuctionResult = await response.Content.ReadFromJsonAsync<ServiceResponse<string>>();
+            Assert.NotNull(deletedAuctionResult);
+            Assert.True(deletedAuctionResult.Success);
+            Assert.IsType<ServiceResponse<string>>(deletedAuctionResult);
+        }
+
+        [Fact]
+        public async void DeleteAuctions_WithWrongUser_ReturnSuccess()
+        {
+            // arrange
+            _httpClient.SetFakeJwtBearerToken(AuthenticationHelper.GetBearerForUser("Arvis-fake"));
+
+            //act
+            var response = await _httpClient.DeleteAsync($"api/auctions/{auctionId}");
+
+            // assert
+            response.EnsureSuccessStatusCode();
+            Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+
+            var deletedAuctionResult = await response.Content.ReadFromJsonAsync<ServiceResponse<string>>();
+            Assert.NotNull(deletedAuctionResult);
+            Assert.False(deletedAuctionResult.Success);
+            Assert.IsType<ServiceResponse<string>>(deletedAuctionResult);
+        }
+
+        [Fact]
+        public async void DeleteAuctions_WithWrongId_ReturnSuccess()
+        {
+            // arrange
+            _httpClient.SetFakeJwtBearerToken(AuthenticationHelper.GetBearerForUser("Arvis"));
+
+            //act
+            var response = await _httpClient.DeleteAsync($"api/auctions/{wrongId}");
+
+            // assert
+            response.EnsureSuccessStatusCode();
+            Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+
+            var deletedAuctionResult = await response.Content.ReadFromJsonAsync<ServiceResponse<string>>();
+            Assert.NotNull(deletedAuctionResult);
+            Assert.False(deletedAuctionResult.Success);
+            Assert.IsType<ServiceResponse<string>>(deletedAuctionResult);
         }
     }
 }
