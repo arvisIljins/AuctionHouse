@@ -29,7 +29,7 @@ public static class Config
                 ClientSecrets = { new Secret("secret".Sha256()) },
                 AllowedGrantTypes = GrantTypes.ResourceOwnerPassword,
             },
-              new Client
+            new Client
             {
                 ClientId = "clientApp",
                 ClientName = "clientApp",
@@ -39,7 +39,8 @@ public static class Config
                 AllowedGrantTypes = GrantTypes.CodeAndClientCredentials,
                 RequirePkce = false,
                 AllowOfflineAccess = true,
-                AccessTokenLifetime = 3600*24*30
+                AccessTokenLifetime = 3600*24*30,
+                AlwaysIncludeUserClaimsInIdToken = true
             },
         };
 }
