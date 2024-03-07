@@ -21,7 +21,7 @@ export default async function Navbar() {
         <div>
           <Search />
         </div>
-        <div>{user.name ? <UserMenu user={user} /> : <LoginButton />}</div>
+        <div>{user?.name ? <UserMenu user={user} /> : <LoginButton />}</div>
       </div>
     </header>
   );

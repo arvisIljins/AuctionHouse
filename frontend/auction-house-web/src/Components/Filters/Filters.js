@@ -28,12 +28,11 @@ const Filters = () => {
           Items in page:
           {map(pageSizeOptions, (item) => {
             return (
-              <label
-                className="form-control"
-                onChange={() => setParams({ pageSize: item })}>
+              <label key={item.title} className="form-control">
                 <input
                   type="checkbox"
                   name="checkbox"
+                  onChange={() => setParams({ pageSize: item })}
                   checked={pageSize === item}
                 />
                 {item}
@@ -45,12 +44,11 @@ const Filters = () => {
           Sort by:
           {map(orderButton, (item) => {
             return (
-              <label
-                className="form-control"
-                onChange={() => setParams({ orderBy: item.value })}>
+              <label key={item.title} className="form-control">
                 <input
                   type="checkbox"
                   name="checkbox"
+                  onChange={() => setParams({ orderBy: item.value })}
                   checked={orderBy === item.value}
                 />
                 {item.title}
@@ -62,12 +60,11 @@ const Filters = () => {
           Filter by:
           {map(filterButton, (item) => {
             return (
-              <label
-                className="form-control"
-                onChange={() => setParams({ filterBy: item.value })}>
+              <label key={item.title} className="form-control">
                 <input
                   type="checkbox"
                   name="checkbox"
+                  onChange={() => setParams({ orderBy: item.value })}
                   checked={filteredBy === item.value}
                 />
                 {item.title}
