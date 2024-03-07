@@ -4,15 +4,17 @@ using AuctionService.Data;
 using AuctionService.IntegrationTests.Fixtures;
 using AuctionService.IntegrationTests.Util;
 using Contracts.Models;
+using MassTransit.Testing;
 using Microsoft.Extensions.DependencyInjection;
 
-// Testing controller
 namespace AuctionService.IntegrationTests
 {
-    public class AuctionControllerTests : IClassFixture<CustomWebAppFactory>, IAsyncLifetime
+    [CollectionDefinition("Shared collections")]
+    public class AuctionControllerTests : IAsyncLifetime
     {
         private readonly CustomWebAppFactory _customWebAppFactory;
         private readonly HttpClient _httpClient;
+        private ITestHarness _testHarness;
         const string auctionId = "470fb15b-9371-4011-8bdb-c5b652edc205";
         const string wrongId =  "c87b594f-338c-4d32-bc50-0d30e2973643";
 
@@ -20,6 +22,7 @@ namespace AuctionService.IntegrationTests
         {
             _customWebAppFactory = customWebAppFactory;
             _httpClient = customWebAppFactory.CreateClient();
+            _testHarness = customWebAppFactory.Services.GetTestHarness();
         }
 
         public Task InitializeAsync() => Task.CompletedTask;
@@ -99,6 +102,7 @@ namespace AuctionService.IntegrationTests
             // assert
             response.EnsureSuccessStatusCode();
             Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+            Assert.True(await _testHarness.Published.Any<AuctionCreated>());
 
             var createAuctionResult = await response.Content.ReadFromJsonAsync<ServiceResponse<AuctionDto>>();
             Assert.NotNull(createAuctionResult);
