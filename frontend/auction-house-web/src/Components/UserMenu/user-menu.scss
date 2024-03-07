@@ -1,0 +1,87 @@
+@import '../../app/Styles/variables.scss';
+  a {
+    text-decoration: none;
+    color: $text-color;
+  }
+  
+  a:hover {
+    color: $text-color;
+  }
+
+  .menu-wrapper {
+    position: relative;
+    font-size: 1rem;
+    margin-right: 1rem;
+    z-index: 90;
+    color: $text-color;
+  }
+  
+  .user-button {
+    display: inline-block;
+    border: 1px solid $text-color;
+    border-radius: 4px;
+    padding: 10px 30px 10px 20px;
+    @include background;
+    cursor: pointer;
+    white-space: nowrap;
+  }
+  
+  .user-button:after {
+    content: '';
+    position: relative;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-top: 5px solid $text-color;
+  }
+  
+  .user-button:hover {
+    background-color: $dropdown-color-light;
+  }
+  
+  .user-input {
+    display: none;
+  }
+  
+  .user-menu {
+    position: absolute;
+    right: 0;
+    top: 100%;
+    border: 1px solid $text-color;
+    border-radius: 4px;
+    padding: 0;
+    margin-top: 1rem;
+     @include background;
+    list-style-type: none;
+  }
+  
+  .user-input + .user-menu {
+    display: none;
+  } 
+  
+  .user-input:checked + .user-menu {
+    display: block;
+  } 
+  
+  .user-menu li {
+    padding: 10px 20px;
+    cursor: pointer;
+    white-space: nowrap;
+  }
+  
+  .user-menu li:hover {
+    background-color: $dropdown-color-light;
+  }
+  
+  .user-menu li a {
+    display: block;
+    margin: -10px -20px;
+    padding: 10px 20px;
+  }
+
+  .form-control{
+    padding-right: 0.5rem;
+    input {
+      cursor: pointer;
+    }
+  }
+  

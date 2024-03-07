@@ -1,6 +1,5 @@
 import Navbar from "@/Components/Navbar/Navbar";
 import "./Styles/globals.scss";
-import Pagination from "@/Components/Pagintaion/Pagination";
 
 export const metadata = {
   title: "Auction House",

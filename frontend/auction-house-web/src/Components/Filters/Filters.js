@@ -20,10 +20,10 @@ const Filters = () => {
     { title: "Ending soon", value: "endingSoon" },
   ];
   return (
-    <label class="dropdown">
-      <div class="dd-button">Filters</div>
-      <input type="checkbox" class="dd-input" />
-      <ul class="dd-menu">
+    <label className="dropdown">
+      <div className="dd-button">Filters</div>
+      <input type="checkbox" className="dd-input" />
+      <ul className="dd-menu">
         <li>
           Items in page:
           {map(pageSizeOptions, (item) => {
