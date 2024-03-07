@@ -2,6 +2,7 @@ import React from "react";
 import { BsHouses } from "react-icons/bs";
 import "./navbar.scss";
 import Search from "./SearchBar/Search";
+import LoginButton from "./LoginButton/LoginButton";
 
 const Navbar = () => {
   return (
@@ -14,7 +15,9 @@ const Navbar = () => {
         <div>
           <Search />
         </div>
-        <div>right</div>
+        <div>
+          <LoginButton />
+        </div>
       </div>
     </header>
   );
