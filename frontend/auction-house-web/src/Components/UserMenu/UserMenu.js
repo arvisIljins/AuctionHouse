@@ -2,6 +2,7 @@
 import React from "react";
 import "./user-menu.scss";
 import Link from "next/link";
+import { signOut } from "next-auth/react";
 
 const UserMenu = ({ user }) => {
   return (
@@ -12,6 +13,16 @@ const UserMenu = ({ user }) => {
         <li>
           <Link href="/session">Users session</Link>
         </li>
+        <li>
+          <Link href="/">Auctions list</Link>
+        </li>
+        <li>
+          <Link href="/">My items</Link>
+        </li>
+        <li>
+          <Link href="/won">Auctions won</Link>
+        </li>
+        <li onClick={() => signOut({ callbackUrl: "/" })}>Sign out</li>
       </ul>
     </label>
   );
