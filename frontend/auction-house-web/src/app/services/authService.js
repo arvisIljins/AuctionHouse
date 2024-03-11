@@ -20,7 +20,7 @@ export async function getCurrentUser() {
   }
 }
 
-export async function getToken() {
+export async function handleGetToken() {
   const req = {
     headers: Object.fromEntries(headers()),
     cookies: Object.fromEntries(
