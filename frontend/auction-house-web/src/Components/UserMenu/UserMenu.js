@@ -20,6 +20,9 @@ const UserMenu = ({ user }) => {
           <Link href="/">My items</Link>
         </li>
         <li>
+          <Link href="/auctions/create">Create Auction</Link>
+        </li>
+        <li>
           <Link href="/won">Auctions won</Link>
         </li>
         <li onClick={() => signOut({ callbackUrl: "/" })}>Sign out</li>
