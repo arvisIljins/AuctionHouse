@@ -8,6 +8,8 @@ const initialState = {
   searchValue: "",
   orderBy: "createdAt",
   filterBy: "",
+  seller: undefined,
+  winner: undefined,
 };
 
 export const useParamsStore = create((set) => ({
