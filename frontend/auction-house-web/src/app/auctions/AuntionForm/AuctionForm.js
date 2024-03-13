@@ -1,10 +1,11 @@
 "use client";
 
-import React from "react";
+import React, { useEffect } from "react";
 import "./auction-form.scss";
 import { useForm } from "react-hook-form";
 import TextInput from "@/Components/TextInput/TextInput";
 import { map } from "lodash";
+import Button from "@/Components/Button/Button";
 
 const formValues = [
   {
@@ -28,6 +29,27 @@ const formValues = [
     name: "tags",
     errorMessage: "Tags is required",
   },
+  {
+    label: "Reserve price",
+    placeholder: "Enter price",
+    type: "number",
+    name: "reservePrice",
+    errorMessage: "Reserve price is required",
+  },
+  {
+    label: "Image url",
+    placeholder: "Enter image url",
+    type: "text",
+    name: "imageUrl",
+    errorMessage: "Image url is required",
+  },
+  {
+    label: "Date",
+    placeholder: "Enter date",
+    type: "date",
+    name: "date",
+    errorMessage: "Date is required",
+  },
 ];
 
 const AuctionForm = () => {
@@ -36,14 +58,16 @@ const AuctionForm = () => {
     handleSubmit,
     setFocus,
     formState: { isSubmitting, isValid, isDirty, errors },
-  } = useForm();
+  } = useForm({ mode: "onTouched" });
+
+  useEffect(() => {});
 
   function onSubmit(data) {
     console.log(data);
   }
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
+    <form className="form" onSubmit={handleSubmit(onSubmit)}>
       {map(formValues, (item, index) => {
         return (
           <TextInput
@@ -57,7 +81,7 @@ const AuctionForm = () => {
           />
         );
       })}
-      <button type="submit">submit</button>
+      <Button text="Submit" type="submit" />
     </form>
   );
 };
