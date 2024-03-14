@@ -68,7 +68,6 @@ const AuctionForm = () => {
   async function onSubmit(data) {
     try {
       const response = await createAuction(data);
-      debugger;
       if (!response.success) {
         throw response;
       }

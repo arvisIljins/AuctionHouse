@@ -67,6 +67,24 @@ namespace AuctionService.Services.AuctionService
             return serviceResponse;
         }
 
+        public async Task<ServiceResponse<AuctionDto>> GetAuctionById(Guid id)
+        {
+            var serviceResponse = new ServiceResponse<AuctionDto>();
+            try
+            {
+                var auction = await _auctionRepository.GetAuctionsByIdAsync(id) 
+                ?? throw new Exception($"{id} - not found item with such id");
+        
+                serviceResponse.Data = auction;
+            }
+            catch (Exception ex)
+            {
+                serviceResponse.Success = false;
+                serviceResponse.Message = $"Error deleting auction. Error - {ex}";
+            }
+            return serviceResponse;
+        }
+
         public async Task<ServiceResponse<List<AuctionDto>>> GetAllAuctions(string? date)
         {
             var serviceResponse = new ServiceResponse<List<AuctionDto>>();

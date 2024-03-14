@@ -8,5 +8,6 @@ namespace AuctionService.Services.AuctionService
         Task<ServiceResponse<AuctionDto>>CreateAuction(CreateAuctionDto auctionDto);   
         Task<ServiceResponse<AuctionDto>>UpdateAuction(UpdateAuctionDto auctionDto);   
         Task<ServiceResponse<string>>DeleteAuction(Guid id);     
+        Task<ServiceResponse<AuctionDto>> GetAuctionById(Guid id);
     }
 }

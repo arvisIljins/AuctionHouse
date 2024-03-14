@@ -40,7 +40,7 @@ namespace AuctionService.Repositories.AuctionsRepository
 
         public async Task<AuctionDto> GetAuctionsByIdAsync(Guid id)
         {
-           return await  _context.Auctions.ProjectTo<AuctionDto>(_mapper.ConfigurationProvider)
+           return await _context.Auctions.ProjectTo<AuctionDto>(_mapper.ConfigurationProvider)
            .FirstOrDefaultAsync(x => x.Id == id) ?? new AuctionDto();
         }
 

@@ -13,3 +13,7 @@ export async function updateAuction(id, data) {
 export async function createAuction(data) {
   return await fetchWrapper.post("auctions", data);
 }
+
+export async function getDetailsViewData(id) {
+  return await fetchWrapper.get(`auctions/${id}`);
+}

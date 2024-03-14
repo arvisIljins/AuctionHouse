@@ -40,4 +40,12 @@ public class AuctionsController : ControllerBase
     {
         return Ok(await _auctionService.DeleteAuction(id));
     }
+
+    
+    [Authorize]
+    [HttpGet("{id}")]
+    public async Task<ActionResult<AuctionDto>> GetAuctionById(Guid id)
+    {
+        return Ok(await _auctionService.GetAuctionById(id));
+    }
 }
