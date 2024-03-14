@@ -1,5 +1,6 @@
 import Navbar from "@/Components/Navbar/Navbar";
 import "./Styles/globals.scss";
+import ToasterProvider from "./provaiders/ToasterProvider";
 
 export const metadata = {
   title: "Auction House",
@@ -10,6 +11,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body>
+        <ToasterProvider />
         <Navbar />
         {children}
       </body>

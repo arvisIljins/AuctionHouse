@@ -6,6 +6,9 @@ import { useForm } from "react-hook-form";
 import TextInput from "@/Components/TextInput/TextInput";
 import { map } from "lodash";
 import Button from "@/Components/Button/Button";
+import { useRouter } from "next/navigation";
+import { createAuction } from "@/app/services/auctionsService";
+import toast from "react-hot-toast";
 
 const formValues = [
   {
@@ -60,10 +63,19 @@ const AuctionForm = () => {
     formState: { isSubmitting, isValid, isDirty, errors },
   } = useForm({ mode: "onTouched" });
 
-  useEffect(() => {});
+  const router = useRouter();
 
-  function onSubmit(data) {
-    console.log(data);
+  async function onSubmit(data) {
+    try {
+      const response = await createAuction(data);
+      debugger;
+      if (!response.success) {
+        throw response;
+      }
+      router.push(`/auctions/details/${response.data.id}`);
+    } catch (error) {
+      toast.error(error.message || "Unexpected runtime error!");
+    }
   }
 
   return (

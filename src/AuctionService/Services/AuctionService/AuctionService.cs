@@ -27,9 +27,9 @@ namespace AuctionService.Services.AuctionService
             {
                 var auction = _mapper.Map<Auction>(auctionDto);
                 auction.Seller = _identityService.GetUserName();
+                _auctionRepository.CreateAuction(auction);
                 var auctionForResponse = _mapper.Map<AuctionDto>(auction);
                 var auctionForServiceBus =  _mapper.Map<AuctionCreated>(auctionForResponse);
-                _auctionRepository.CreateAuction(auction);
                 await _publishEndpoint.Publish(auctionForServiceBus);
                 var saveChanges = await _auctionRepository.SaveChangesAsync();
                 if(!saveChanges){

@@ -5,7 +5,7 @@ const baseUrl = "http://localhost:6001/";
 async function get(url) {
   const request = {
     method: "GET",
-    header: await getHeader(),
+    headers: await getHeader(),
   };
 
   const response = await fetch(`${baseUrl}${url}`, request);
@@ -15,7 +15,7 @@ async function get(url) {
 async function post(url, body) {
   const request = {
     method: "POST",
-    header: await getHeader(),
+    headers: await getHeader(),
     body: JSON.stringify(body),
   };
 
@@ -26,7 +26,7 @@ async function post(url, body) {
 async function put(url, body) {
   const request = {
     method: "PUT",
-    header: await getHeader(),
+    headers: await getHeader(),
     body: JSON.stringify(body),
   };
 
@@ -37,7 +37,7 @@ async function put(url, body) {
 async function del(url, body) {
   const request = {
     method: "DELETE",
-    header: await getHeader(),
+    headers: await getHeader(),
   };
 
   const response = await fetch(`${baseUrl}${url}`, request);
@@ -51,7 +51,7 @@ async function getHeader() {
   };
 
   if (token) {
-    headers.Authorization = `Bearer ${token}`;
+    headers.Authorization = `Bearer ${token.access_token}`;
   }
   return headers;
 }
@@ -59,14 +59,10 @@ async function getHeader() {
 async function handleResponse(response) {
   const text = await response.text();
   const data = text && JSON.parse(text);
-
-  if (response.ok) {
-    return data || data.success;
+  if (response.ok && data.success) {
+    return data;
   } else {
-    const error = {
-      message: data.message,
-    };
-    return error;
+    return { success: false };
   }
 }
 
