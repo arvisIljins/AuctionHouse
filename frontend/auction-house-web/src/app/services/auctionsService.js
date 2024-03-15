@@ -18,7 +18,9 @@ export async function createAuction(data) {
 }
 
 export async function getDetailsViewData(id) {
-  const res = await fetchWrapper.get(`auctions/${id}`);
-  revalidatePath(`auctions/${id}`);
-  return res;
+  return await fetchWrapper.get(`auctions/${id}`);
+}
+
+export async function deleteAuction(id) {
+  return await fetchWrapper.del(`auctions/${id}`);
 }

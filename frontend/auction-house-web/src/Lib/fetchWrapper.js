@@ -34,7 +34,7 @@ async function put(url, body) {
   return await handleResponse(response);
 }
 
-async function del(url, body) {
+async function del(url) {
   const request = {
     method: "DELETE",
     headers: await getHeader(),

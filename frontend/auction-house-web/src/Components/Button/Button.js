@@ -2,14 +2,14 @@
 import React from "react";
 import "./button.scss";
 
-const Button = ({ text, onClick = null, disabled }) => {
+const Button = ({ text, onClick = null, disabled, loading }) => {
   return (
     <button
-      disabled={disabled}
-      onClick={() => onClick}
+      disabled={disabled || loading}
+      onClick={() => onClick()}
       className="button"
       role="button">
-      {text}
+      {loading ? "Loading.." : text}
     </button>
   );
 };

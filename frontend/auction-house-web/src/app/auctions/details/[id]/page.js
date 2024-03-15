@@ -6,10 +6,12 @@ import CountdownTimer from "@/Components/CountdownTimer/CountdownTimer";
 import Link from "next/link";
 import Button from "@/Components/Button/Button";
 import { getCurrentUser } from "@/app/services/authService";
+import DeleteButton from "../DeleteButton";
 
 export default async function AuctionDetails({ params }) {
   const response = await getDetailsViewData(params.id);
   const user = await getCurrentUser();
+
   const data = response.data;
   const showEditButton = user.username === data.seller;
   return (
@@ -31,9 +33,10 @@ export default async function AuctionDetails({ params }) {
       </div>
       {showEditButton && (
         <Link href={`/auctions/update/${params.id}`}>
-          <Button text="Edit auction" type="submit" />
+          <Button text="Edit auction" />
         </Link>
       )}
+      {showEditButton && <DeleteButton id={params.id} />}
     </div>
   );
 }
