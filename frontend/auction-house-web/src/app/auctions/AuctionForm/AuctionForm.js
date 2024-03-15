@@ -1,14 +1,15 @@
 "use client";
 
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import "./auction-form.scss";
 import { useForm } from "react-hook-form";
 import TextInput from "@/Components/TextInput/TextInput";
 import { map } from "lodash";
 import Button from "@/Components/Button/Button";
-import { useRouter } from "next/navigation";
-import { createAuction } from "@/app/services/auctionsService";
+import { usePathname, useRouter } from "next/navigation";
+import { createAuction, updateAuction } from "@/app/services/auctionsService";
 import toast from "react-hot-toast";
+import Loader from "@/Components/Loader/Loader";
 
 const formValues = [
   {
@@ -47,51 +48,79 @@ const formValues = [
     errorMessage: "Image url is required",
   },
   {
-    label: "Date",
+    label: "End date",
     placeholder: "Enter date",
     type: "date",
-    name: "date",
+    name: "endDate",
     errorMessage: "Date is required",
   },
 ];
 
-const AuctionForm = () => {
+const AuctionForm = ({ auction }) => {
   const {
     control,
     handleSubmit,
-    setFocus,
+    reset,
     formState: { isSubmitting, isValid, isDirty, errors },
   } = useForm({ mode: "onTouched" });
-
+  const [loading, setLoading] = useState(false);
+  const pathname = usePathname();
   const router = useRouter();
+  const isNew = pathname === "/auctions/create";
+
+  useEffect(() => {
+    if (auction) {
+      const { title, description, tags, imageUrl, reservePrice, endDate } =
+        auction;
+      reset({
+        title,
+        description,
+        tags,
+        imageUrl,
+        reservePrice,
+        endDate: new Date(endDate),
+      });
+    }
+  }, []);
 
   async function onSubmit(data) {
     try {
-      const response = await createAuction(data);
-      if (!response.success) {
+      setLoading(true);
+      let response;
+      if (isNew) {
+        response = await createAuction(data);
+      } else {
+        data.id = auction.id;
+        response = await updateAuction(data);
+      }
+      if (!response?.success) {
         throw response;
       }
       router.push(`/auctions/details/${response.data.id}`);
+      setLoading(false);
     } catch (error) {
-      toast.error(error.message || "Unexpected runtime error!");
+      setLoading(false);
+      toast.error(error?.message || "Unexpected runtime error!");
     }
   }
 
   return (
     <form className="form" onSubmit={handleSubmit(onSubmit)}>
-      {map(formValues, (item, index) => {
-        return (
-          <TextInput
-            key={index}
-            control={control}
-            label={item.label}
-            placeholder={item.placeholder}
-            type={item.type}
-            name={item.name}
-            rules={{ required: item.errorMessage }}
-          />
-        );
-      })}
+      {loading && <Loader />}
+      {!loading &&
+        map(formValues, (item, index) => {
+          return (
+            <TextInput
+              key={index}
+              control={control}
+              label={item.label}
+              placeholder={item.placeholder}
+              type={item.type}
+              name={item.name}
+              rules={{ required: item.errorMessage }}
+            />
+          );
+        })}
       <Button text="Submit" type="submit" />
     </form>
   );

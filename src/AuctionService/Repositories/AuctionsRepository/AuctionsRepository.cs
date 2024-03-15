@@ -51,6 +51,11 @@ namespace AuctionService.Repositories.AuctionsRepository
                 .FirstOrDefaultAsync(c => c.Id == id) ?? new Auction();
         }
 
+        public void UpdateAuctionAsync(Auction auction)
+        {
+             _context.Auctions.Update(auction);
+        }
+
         public async Task<bool> SaveChangesAsync()
         {
             return   await _context.SaveChangesAsync() > 0;

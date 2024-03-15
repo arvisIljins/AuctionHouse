@@ -1,6 +1,6 @@
 import React from "react";
 import "./create.scss";
-import AuctionForm from "../AuntionForm/AuctionForm";
+import AuctionForm from "../AuctionForm/AuctionForm";
 
 const Create = () => {
   return (

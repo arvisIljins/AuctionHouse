@@ -7,6 +7,7 @@ namespace AuctionService.Repositories.AuctionsRepository
         Task<Auction> GetAuctionsEntityByIdAsync(Guid id);
         void CreateAuction(Auction auction);
         Task<bool> SaveChangesAsync(); 
+        void UpdateAuctionAsync(Auction auction); 
         void DeleteAuction(Auction auction); 
     }
 }

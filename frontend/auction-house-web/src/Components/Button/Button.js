@@ -1,7 +1,8 @@
+"use client";
 import React from "react";
 import "./button.scss";
 
-const Button = ({ text, onClick, disabled }) => {
+const Button = ({ text, onClick = null, disabled }) => {
   return (
     <button
       disabled={disabled}

@@ -118,8 +118,10 @@ namespace AuctionService.Services.AuctionService
             updatedAuction.Item.Description = auctionDto.Description ?? updatedAuction.Item.Description;
             updatedAuction.Item.Tags = auctionDto.Tags ?? updatedAuction.Item.Tags;
             updatedAuction.ReservePrice = auctionDto.ReservePrice ?? updatedAuction.ReservePrice;
+            updatedAuction.EndDate = auctionDto.EndDate ?? updatedAuction.EndDate;
             var publishAuction = _mapper.Map<AuctionUpdated>(updatedAuction);
             await _publishEndpoint.Publish(publishAuction);
+            _auctionRepository.UpdateAuctionAsync(updatedAuction);
             await _auctionRepository.SaveChangesAsync();
             serviceResponse.Data = _mapper.Map<AuctionDto>(auctionDto);
             }
