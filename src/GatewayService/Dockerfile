@@ -4,6 +4,7 @@ EXPOSE 80
 
 # copy all .csproj file and restore as ditinct layer and uze the same cpoy comand
 COPY AuctionHouse.sln AuctionHouse.sln
+COPY src/BiddingService/BiddingService.csproj src/BiddingService/BiddingService.csproj
 COPY src/AuctionService/AuctionService.csproj src/AuctionService/AuctionService.csproj
 COPY src/SearchService/SearchService.csproj src/SearchService/SearchService.csproj
 COPY src/GatewayService/GatewayService.csproj src/GatewayService/GatewayService.csproj

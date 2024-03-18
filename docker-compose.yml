@@ -56,7 +56,24 @@ services:
     ports:
       - 7002:80
     depends_on:
-      - postgres
+      - mongodb
+      - rabbitmq
+  # BiddsService
+  biding-service:
+    image: arvisiljins/biding-service:latest
+    build:
+      context: .
+      dockerfile: src/BiddingService/Dockerfile
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:80
+      - RabbitMq__Host=rabbitmq
+      - ConnectionStrings__BidsConnection=mongodb://arvis:arxarx@mongodb
+      - IdentityServiceUrl=http://auction-service
+    ports:
+      - 7003:80
+    depends_on:
+      - mongodb
       - rabbitmq
   # IdentityService
   identity-service:
