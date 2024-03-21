@@ -2,6 +2,7 @@ using BiddingService.DTOs;
 using BiddingService.Models;
 using BiddingService.Repositories;
 using BiddingService.Services.BidsService;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BiddingService.Controllers
@@ -18,12 +19,14 @@ namespace BiddingService.Controllers
             _bidsRepository = bidsRepository;
         }
 
+        [Authorize]
         [HttpPost]
         public async Task<ActionResult<BidsDto>> PlaceBid(string auctionId, int amount)
         {
-            return Ok(await _bidsService.PlaceBid(auctionId, amount));
+            return await _bidsService.PlaceBid(auctionId, amount);
         }     
 
+        [Authorize]
         [HttpGet("auctionId")]
         public async Task<ActionResult<List<Bid>>> GetBidsForAuction(string auctionId)
         {     

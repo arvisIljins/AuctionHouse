@@ -1,5 +1,4 @@
 using BiddingService.DTOs;
-using BiddingService.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BiddingService.Services.BidsService

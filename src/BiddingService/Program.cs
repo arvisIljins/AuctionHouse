@@ -1,4 +1,7 @@
 using BiddingService.Consumers;
+using BiddingService.Repositories;
+using BiddingService.Services.BidsService;
+using BidsService.Services.IdentityService;
 using MassTransit;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.OpenApi.Models;
@@ -24,6 +27,7 @@ builder.Services.AddSwaggerGen(c =>
     });
     c.OperationFilter<SecurityRequirementsOperationFilter>();
 });
+
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 .AddJwtBearer(options => 
     {
@@ -32,7 +36,11 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
         options.TokenValidationParameters.ValidateAudience = false;
         options.TokenValidationParameters.NameClaimType = "username";
     });
+builder.Services.AddHttpContextAccessor();
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+builder.Services.AddScoped<IBidsRepository, BidsRepository>();
+builder.Services.AddScoped<IIdentityService, IdentityService>();
+builder.Services.AddScoped<IBidsService, BiddingService.Services.BidsService.BidsService>();
 builder.Services.AddMassTransit(x => 
 {
     x.AddConsumersFromNamespaceContaining<AuctionCreatedConsumer>();

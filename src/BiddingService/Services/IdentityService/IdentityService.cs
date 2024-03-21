@@ -1,4 +1,3 @@
-using System.Security.Claims;
 
 namespace BidsService.Services.IdentityService
 {

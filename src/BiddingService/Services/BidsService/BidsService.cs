@@ -3,6 +3,8 @@ using BiddingService.DTOs;
 using BiddingService.Models;
 using BiddingService.Repositories;
 using BidsService.Services.IdentityService;
+using Contracts.Models;
+using MassTransit;
 using MassTransit.Initializers;
 using Microsoft.AspNetCore.Mvc;
 using MongoDB.Entities;
@@ -14,11 +16,13 @@ namespace BiddingService.Services.BidsService
         private readonly IBidsRepository _bidsRepository;
         private readonly IIdentityService _identityService;
         private readonly IMapper _mapper;
-        public BidsService(IBidsRepository bidsRepository, IIdentityService identityService, IMapper mapper)
+        private readonly IPublishEndpoint  _publishEndpoint;
+        public BidsService(IBidsRepository bidsRepository, IIdentityService identityService, IMapper mapper, IPublishEndpoint publishEndpoint)
         {
             _bidsRepository = bidsRepository;
             _identityService = identityService;
             _mapper = mapper;
+            _publishEndpoint = publishEndpoint;
         }
 
         public async Task<List<BidsDto>> GetBidsByAuctionId(string auctionId)
@@ -40,10 +44,10 @@ namespace BiddingService.Services.BidsService
                 }
 
                 var currentUserName = _identityService.GetUserName();
-                if (auction.Seller == currentUserName)
-                {
-                    return new BadRequestObjectResult("You can't bid on your own auction");
-                }
+                // if (auction.Seller == currentUserName)
+                // {
+                //     return new BadRequestObjectResult("You can't bid on your own auction");
+                // }
 
                 var bid = new Bid 
                 {
@@ -54,7 +58,7 @@ namespace BiddingService.Services.BidsService
 
                 if(auction.AuctionEnds < DateTime.UtcNow)
                 {
-                    bid.BidStatus = BidStatus.Finished;
+                    bid.Status = BidStatus.Finished;
                 } 
                 else 
                 {
@@ -65,18 +69,21 @@ namespace BiddingService.Services.BidsService
 
                     if(highBid is not null && amount > highBid.Amount || highBid is null)
                     {
-                        bid.BidStatus = amount > auction.ReservePrice 
+                        bid.Status = amount > auction.ReservePrice 
                             ? BidStatus.Accepted 
                             : BidStatus.AcceptedBellowReserve;
                     }
 
                     if(highBid is not null && bid.Amount <= highBid.Amount)
                     {
-                        bid.BidStatus = BidStatus.TooLow;
+                        bid.Status = BidStatus.TooLow;
                     }
                 } 
 
             await DB.SaveAsync(bid);
+
+            var publishBid = _mapper.Map<BidPlaced>(bid);
+            await _publishEndpoint.Publish(publishBid);
 
             return new OkObjectResult(_mapper.Map<BidsDto>(bid));
    
