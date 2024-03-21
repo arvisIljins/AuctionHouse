@@ -44,10 +44,10 @@ namespace BiddingService.Services.BidsService
                 }
 
                 var currentUserName = _identityService.GetUserName();
-                // if (auction.Seller == currentUserName)
-                // {
-                //     return new BadRequestObjectResult("You can't bid on your own auction");
-                // }
+                if (auction.Seller == currentUserName)
+                {
+                    return new BadRequestObjectResult("You can't bid on your own auction");
+                }
 
                 var bid = new Bid 
                 {
