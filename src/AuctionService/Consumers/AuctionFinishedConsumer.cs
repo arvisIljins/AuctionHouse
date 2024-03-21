@@ -15,7 +15,7 @@ namespace AuctionService.Consumers
 
         public async Task Consume(ConsumeContext<AuctionFinished> context)
         {
-            var auction = await _context.Auctions.FindAsync(context.Message.AuctionId);
+            var auction = await _context.Auctions.FindAsync(Guid.Parse(context.Message.AuctionId));
 
             if(auction is null) return;
 
