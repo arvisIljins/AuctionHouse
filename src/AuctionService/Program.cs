@@ -2,6 +2,7 @@ using AuctionService.Consumers;
 using AuctionService.Data;
 using AuctionService.Repositories.AuctionsRepository;
 using AuctionService.Services.AuctionService;
+using AuctionService.Services.GrpcAuctionService;
 using AuctionService.Services.IdentityService;
 using MassTransit;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -46,6 +47,7 @@ builder.Services.AddScoped<IAuctionService, AuctionService.Services.AuctionServi
 builder.Services.AddScoped<IAuctionsRepository, AuctionsRepository>();
 builder.Services.AddScoped<IIdentityService, IdentityService>();
 builder.Services.AddHttpContextAccessor();
+builder.Services.AddGrpc();
 builder.Services.AddMassTransit(x => 
 {
     x.AddConsumersFromNamespaceContaining<BidPlacedConsumer>();
@@ -77,6 +79,7 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
+app.MapGrpcService<GrpcAuctionService>();
 
 app.Run();
 

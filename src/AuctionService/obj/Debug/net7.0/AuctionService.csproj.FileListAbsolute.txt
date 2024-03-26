@@ -64,3 +64,10 @@
 /Users/arvisiljins/Desktop/projects/AuctionHouse/src/AuctionService/bin/Debug/net7.0/Scrutor.dll
 /Users/arvisiljins/Desktop/projects/AuctionHouse/src/AuctionService/bin/Debug/net7.0/Swashbuckle.AspNetCore.Filters.dll
 /Users/arvisiljins/Desktop/projects/AuctionHouse/src/AuctionService/bin/Debug/net7.0/Swashbuckle.AspNetCore.Filters.Abstractions.dll
+/Users/arvisiljins/Desktop/projects/AuctionHouse/src/AuctionService/bin/Debug/net7.0/Google.Protobuf.dll
+/Users/arvisiljins/Desktop/projects/AuctionHouse/src/AuctionService/bin/Debug/net7.0/Grpc.AspNetCore.Server.dll
+/Users/arvisiljins/Desktop/projects/AuctionHouse/src/AuctionService/bin/Debug/net7.0/Grpc.AspNetCore.Server.ClientFactory.dll
+/Users/arvisiljins/Desktop/projects/AuctionHouse/src/AuctionService/bin/Debug/net7.0/Grpc.Core.Api.dll
+/Users/arvisiljins/Desktop/projects/AuctionHouse/src/AuctionService/bin/Debug/net7.0/Grpc.Net.Client.dll
+/Users/arvisiljins/Desktop/projects/AuctionHouse/src/AuctionService/bin/Debug/net7.0/Grpc.Net.ClientFactory.dll
+/Users/arvisiljins/Desktop/projects/AuctionHouse/src/AuctionService/bin/Debug/net7.0/Grpc.Net.Common.dll
