@@ -2,6 +2,7 @@ using AutoMapper;
 using BiddingService.DTOs;
 using BiddingService.Models;
 using BiddingService.Repositories;
+using BiddingService.Services.GrpcClients;
 using BidsService.Services.IdentityService;
 using Contracts.Models;
 using MassTransit;
@@ -17,12 +18,14 @@ namespace BiddingService.Services.BidsService
         private readonly IIdentityService _identityService;
         private readonly IMapper _mapper;
         private readonly IPublishEndpoint  _publishEndpoint;
-        public BidsService(IBidsRepository bidsRepository, IIdentityService identityService, IMapper mapper, IPublishEndpoint publishEndpoint)
+        private readonly GrpcAuctionClient _grpcAuctionClient;
+        public BidsService(IBidsRepository bidsRepository, IIdentityService identityService, IMapper mapper, IPublishEndpoint publishEndpoint, GrpcAuctionClient grpcAuctionClient)
         {
             _bidsRepository = bidsRepository;
             _identityService = identityService;
             _mapper = mapper;
             _publishEndpoint = publishEndpoint;
+            _grpcAuctionClient = grpcAuctionClient;
         }
 
         public async Task<List<BidsDto>> GetBidsByAuctionId(string auctionId)
@@ -40,7 +43,10 @@ namespace BiddingService.Services.BidsService
 
                 if (auction is null) 
                 {
-                    return new NotFoundObjectResult("Auction not found");
+                    
+                    auction = _grpcAuctionClient.GetAuction(auctionId);
+
+                    if(auction == null)  return new NotFoundObjectResult("Auction not found");
                 }
 
                 var currentUserName = _identityService.GetUserName();

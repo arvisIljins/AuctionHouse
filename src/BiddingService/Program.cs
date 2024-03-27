@@ -1,6 +1,7 @@
 using BiddingService.Consumers;
 using BiddingService.Repositories;
 using BiddingService.Services.BidsService;
+using BiddingService.Services.GrpcClients;
 using BidsService.Services.CheckAuctionFinished;
 using BidsService.Services.IdentityService;
 using MassTransit;
@@ -41,6 +42,7 @@ builder.Services.AddHttpContextAccessor();
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddScoped<IBidsRepository, BidsRepository>();
 builder.Services.AddScoped<IIdentityService, IdentityService>();
+builder.Services.AddScoped<GrpcAuctionClient>();
 builder.Services.AddScoped<IBidsService, BiddingService.Services.BidsService.BidsService>();
 builder.Services.AddHostedService<CheckAuctionFinished>();
 
