@@ -107,7 +107,7 @@ services:
       - ASPNETCORE_URLS=http://+:80
     ports:
       - 6001:80
-  # GatewayService
+  # NotificationService
   notification-service:
     image: arvisiljins/notification-service:latest
     build:
