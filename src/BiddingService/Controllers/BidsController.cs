@@ -23,14 +23,23 @@ namespace BiddingService.Controllers
         [HttpPost]
         public async Task<ActionResult<BidsDto>> PlaceBid(string auctionId, int amount)
         {
-            return await _bidsService.PlaceBid(auctionId, amount);
+            var response = await _bidsService.PlaceBid(auctionId, amount);
+            if(!response.Success){
+                return BadRequest(response);
+            }
+            return Ok(response);
         }     
 
         [Authorize]
         [HttpGet("auctionId")]
         public async Task<ActionResult<List<Bid>>> GetBidsForAuction(string auctionId)
         {     
-            return Ok(await _bidsService.GetBidsByAuctionId(auctionId));
+            var response = await _bidsService.GetBidsByAuctionId(auctionId);
+
+            if(!response.Success){
+                return BadRequest(response);
+            }
+            return Ok(response);
         } 
     }
 }

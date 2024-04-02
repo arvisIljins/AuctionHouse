@@ -28,31 +28,42 @@ namespace BiddingService.Services.BidsService
             _grpcAuctionClient = grpcAuctionClient;
         }
 
-        public async Task<List<BidsDto>> GetBidsByAuctionId(string auctionId)
+        public async Task<ServiceResponse<List<BidsDto>>> GetBidsByAuctionId(string auctionId)
         {
+            var serviceResponse = new ServiceResponse<List<BidsDto>>();
+            try 
+            {
             var bids =  await _bidsRepository.GetBidsByAuctionId(auctionId);
             var bidsForResponse = bids.Select(_mapper.Map<BidsDto>);
-            return bidsForResponse.ToList();
+            serviceResponse.Data = bidsForResponse.ToList();
+            } 
+            catch(Exception ex) 
+            {
+                serviceResponse.Success = false;
+                serviceResponse.Message = $"Error - {ex}";
+            }
+
+            return serviceResponse;
         }
 
-        public async Task<ActionResult<BidsDto>> PlaceBid(string auctionId, int amount)
+        public async Task<ServiceResponse<BidsDto>> PlaceBid(string auctionId, int amount)
         {
+            var serviceResponse = new ServiceResponse<BidsDto>();
             try 
             {
                 var auction = await _bidsRepository.GetAuctionsById(auctionId);
 
                 if (auction is null) 
                 {
-                    
                     auction = _grpcAuctionClient.GetAuction(auctionId);
 
-                    if(auction == null)  return new NotFoundObjectResult("Auction not found");
+                    if(auction == null)  throw new Exception("Auction not found");
                 }
 
                 var currentUserName = _identityService.GetUserName();
                 if (auction.Seller == currentUserName)
                 {
-                    return new BadRequestObjectResult("You can't bid on your own auction");
+                   throw new Exception("You can't bid on your own auction");
                 }
 
                 var bid = new Bid 
@@ -90,14 +101,17 @@ namespace BiddingService.Services.BidsService
 
             var publishBid = _mapper.Map<BidPlaced>(bid);
             await _publishEndpoint.Publish(publishBid);
-
-            return new OkObjectResult(_mapper.Map<BidsDto>(bid));
+            var responseBids = _mapper.Map<BidsDto>(bid);
+            serviceResponse.Data = responseBids;
    
             } 
             catch(Exception ex) 
             {
-                return new BadRequestObjectResult(ex.Message);
+                serviceResponse.Success = false;
+                serviceResponse.Message = $"Error - {ex}";
             }
+
+            return serviceResponse;
         }
     }
 }
