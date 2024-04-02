@@ -15,7 +15,7 @@ namespace SearchService.Consumers
         {
             var auction = await DB.Find<Item>().OneAsync(context.Message.AuctionId);
             var saveData = auction is not null && context.Message.ItemSold;
-            if(saveData)
+            if(saveData && auction is not null)
             {
                 auction.Winner = context.Message.Winner;
                 auction.SoldAmount = context.Message.Amount;

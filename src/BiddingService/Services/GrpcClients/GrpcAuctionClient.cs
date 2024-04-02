@@ -14,7 +14,7 @@ namespace BiddingService.Services.GrpcClients;
             _logger = logger;
         }
 
-        public Auction GetAuction(string id)
+        public Auction? GetAuction(string id)
         {
             _logger.LogInformation("Calling GRPC Service");
             var channel = GrpcChannel.ForAddress(_configuration["GrpcAuction"] ?? "");
