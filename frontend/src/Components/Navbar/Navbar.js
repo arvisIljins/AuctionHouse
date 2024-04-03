@@ -3,7 +3,7 @@ import { BsHouses } from "react-icons/bs";
 import "./navbar.scss";
 import Search from "./SearchBar/Search";
 import LoginButton from "./LoginButton/LoginButton";
-import UserMenu from "../UserMenu/UserMenu";
+import UserMenu from "../userMenu/UserMenu";
 import { getCurrentUser } from "@/app/services/authService";
 import Link from "next/link";
 

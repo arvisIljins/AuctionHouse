@@ -1,4 +1,4 @@
-import Restricted from "@/Components/RestrictedPage/Restricted";
+import Restricted from "@/components/restrictedPage/Restricted";
 import React from "react";
 
 const page = () => {

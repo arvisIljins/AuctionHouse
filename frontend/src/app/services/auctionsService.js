@@ -1,6 +1,6 @@
 "use server";
 
-import { fetchWrapper } from "@/Lib/fetchWrapper";
+import { fetchWrapper } from "@/lib/fetchWrapper";
 import { revalidatePath } from "next/cache";
 
 export async function getData(url) {

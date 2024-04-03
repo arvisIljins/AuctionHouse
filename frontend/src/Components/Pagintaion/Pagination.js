@@ -2,7 +2,7 @@
 import React from "react";
 import "./pagination.scss";
 import { map } from "lodash";
-import { useParamsStore } from "@/app/Hooks/UseParamStore";
+import { useParamsStore } from "@/app/hooks/UseParamStore";
 import { shallow } from "zustand/shallow";
 const Pagination = ({ pageCount }) => {
   const params = useParamsStore(

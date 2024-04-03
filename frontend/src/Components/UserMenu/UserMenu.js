@@ -4,7 +4,7 @@ import "./user-menu.scss";
 import Link from "next/link";
 import { signOut } from "next-auth/react";
 import { usePathname, useRouter } from "next/navigation";
-import { useParamsStore } from "@/app/Hooks/UseParamStore";
+import { useParamsStore } from "@/app/hooks/UseParamStore";
 
 const UserMenu = ({ user }) => {
   const router = useRouter();

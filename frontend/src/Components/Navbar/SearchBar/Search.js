@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 import "./search.scss";
 import { IoIosSearch } from "react-icons/io";
-import { useParamsStore } from "@/app/Hooks/UseParamStore";
+import { useParamsStore } from "@/app/hooks/UseParamStore";
 import { usePathname, useRouter } from "next/navigation";
 
 const Search = () => {

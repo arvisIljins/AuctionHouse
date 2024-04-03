@@ -3,13 +3,13 @@
 import React, { useEffect, useState } from "react";
 import "./auction-form.scss";
 import { useForm } from "react-hook-form";
-import TextInput from "@/Components/TextInput/TextInput";
+import TextInput from "@/components/textInput/TextInput";
 import { map } from "lodash";
-import Button from "@/Components/Button/Button";
+import Button from "@/components/button/Button";
 import { usePathname, useRouter } from "next/navigation";
 import { createAuction, updateAuction } from "@/app/services/auctionsService";
 import toast from "react-hot-toast";
-import Loader from "@/Components/Loader/Loader";
+import Loader from "@/components/loader/Loader";
 
 const formValues = [
   {

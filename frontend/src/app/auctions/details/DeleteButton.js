@@ -1,5 +1,5 @@
 "use client";
-import Button from "@/Components/Button/Button";
+import Button from "@/components/button/Button";
 import { deleteAuction } from "@/app/services/auctionsService";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";

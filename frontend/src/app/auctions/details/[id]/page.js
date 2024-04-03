@@ -1,10 +1,10 @@
 import { getDetailsViewData } from "@/app/services/auctionsService";
 import React from "react";
 import "./details.scss";
-import CustomImage from "@/Components/Image/CustomImage";
-import CountdownTimer from "@/Components/CountdownTimer/CountdownTimer";
+import CustomImage from "@/components/image/CustomImage";
+import CountdownTimer from "@/components/countdownTimer/CountdownTimer";
 import Link from "next/link";
-import Button from "@/Components/Button/Button";
+import Button from "@/components/button/Button";
 import { getCurrentUser } from "@/app/services/authService";
 import DeleteButton from "../DeleteButton";
 

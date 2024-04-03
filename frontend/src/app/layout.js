@@ -1,4 +1,4 @@
-import Navbar from "@/Components/Navbar/Navbar";
+import Navbar from "@/components/navbar/Navbar";
 import "./Styles/globals.scss";
 import ToasterProvider from "./provaiders/ToasterProvider";
 

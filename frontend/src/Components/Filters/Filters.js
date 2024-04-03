@@ -1,7 +1,7 @@
 import React from "react";
 import "./filters.scss";
 import { map } from "lodash";
-import { useParamsStore } from "@/app/Hooks/UseParamStore";
+import { useParamsStore } from "@/app/hooks/UseParamStore";
 
 const Filters = () => {
   const pageSize = useParamsStore((state) => state.pageSize);

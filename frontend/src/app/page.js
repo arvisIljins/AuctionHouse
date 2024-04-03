@@ -1,4 +1,4 @@
-import AuctionsList from "@/Components/Auctions/AuctionsList/AuctionsList";
+import AuctionsList from "@/components/auctions/auctionsList/AuctionsList";
 
 export default function Home() {
   return <AuctionsList />;

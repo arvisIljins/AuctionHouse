@@ -1,7 +1,7 @@
 import React from "react";
 import "./auction-card.scss";
-import CountdownTimer from "@/Components/CountdownTimer/CountdownTimer";
-import CustomImage from "@/Components/Image/CustomImage";
+import CountdownTimer from "@/components/countdownTimer/CountdownTimer";
+import CustomImage from "@/components/image/CustomImage";
 import Link from "next/link";
 
 export const AuctionCard = ({ auction }) => {
