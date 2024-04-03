@@ -10,12 +10,11 @@ import Link from "next/link";
 import Button from "@/components/button/Button";
 import { getCurrentUser } from "@/app/services/authService";
 import DeleteButton from "../DeleteButton";
-import { map } from "lodash";
+import BidsList from "@/components/bids/bidsList/BidsList";
 
 export default async function AuctionDetails({ params }) {
   const response = await getDetailsViewData(params.id);
   const user = await getCurrentUser();
-  const bids = await getBidsById(params.id);
 
   const data = response.data;
   const showEditButton = user.username === data.seller;
@@ -33,9 +32,6 @@ export default async function AuctionDetails({ params }) {
       <p className="details__description details__description__margin">
         Price: {data.reservePrice}
       </p>
-      <p className="details__description">
-        {map(bids.data, (bid) => bid.amount)}
-      </p>
       <div className="details__description__margin">
         <CountdownTimer endDate={data.endDate} />
       </div>
@@ -45,6 +41,7 @@ export default async function AuctionDetails({ params }) {
         </Link>
       )}
       {showEditButton && <DeleteButton id={params.id} />}
+      <BidsList id={params.id} />
     </div>
   );
 }

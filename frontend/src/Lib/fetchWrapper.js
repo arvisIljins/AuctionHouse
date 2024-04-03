@@ -62,7 +62,7 @@ async function handleResponse(response) {
   if (response.ok && data.success) {
     return data;
   } else {
-    return { success: false };
+    return { success: false, message: data.message };
   }
 }
 
