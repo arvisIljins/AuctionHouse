@@ -5,7 +5,15 @@ import CustomImage from "@/Components/Image/CustomImage";
 import Link from "next/link";
 
 export const AuctionCard = ({ auction }) => {
-  const { reservePrice, imageUrl, description, tags, title, endDate } = auction;
+  const {
+    reservePrice,
+    imageUrl,
+    description,
+    tags,
+    title,
+    endDate,
+    currentHightBid,
+  } = auction;
   return (
     <div className="cards">
       <Link href={`auctions/details/${auction.id}`}>
@@ -24,7 +32,9 @@ export const AuctionCard = ({ auction }) => {
             </div>
           </div>
           <p className="cards__description">{tags}</p>
-          <p className="cards__description">Price: {reservePrice}</p>
+          <p className="cards__description">
+            Price: {currentHightBid || reservePrice}
+          </p>
           <CountdownTimer endDate={endDate} />
         </div>{" "}
       </Link>

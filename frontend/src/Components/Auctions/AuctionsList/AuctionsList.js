@@ -49,7 +49,6 @@ const AuctionsList = () => {
   }, [url]);
 
   const showList = !loading && data.auctions.length > 0;
-  console.log(data);
   return (
     <>
       <Filters />
