@@ -24,3 +24,7 @@ export async function getDetailsViewData(id) {
 export async function deleteAuction(id) {
   return await fetchWrapper.del(`auctions/${id}`);
 }
+
+export async function getBidsById(id) {
+  return await fetchWrapper.get(`bids/${id}`);
+}

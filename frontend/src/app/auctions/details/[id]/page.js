@@ -1,4 +1,7 @@
-import { getDetailsViewData } from "@/app/services/auctionsService";
+import {
+  getBidsById,
+  getDetailsViewData,
+} from "@/app/services/auctionsService";
 import React from "react";
 import "./details.scss";
 import CustomImage from "@/components/image/CustomImage";
@@ -7,10 +10,12 @@ import Link from "next/link";
 import Button from "@/components/button/Button";
 import { getCurrentUser } from "@/app/services/authService";
 import DeleteButton from "../DeleteButton";
+import { map } from "lodash";
 
 export default async function AuctionDetails({ params }) {
   const response = await getDetailsViewData(params.id);
   const user = await getCurrentUser();
+  const bids = await getBidsById(params.id);
 
   const data = response.data;
   const showEditButton = user.username === data.seller;
@@ -27,6 +32,9 @@ export default async function AuctionDetails({ params }) {
       <p className="details__description">{data.tags}</p>
       <p className="details__description details__description__margin">
         Price: {data.reservePrice}
+      </p>
+      <p className="details__description">
+        {map(bids.data, (bid) => bid.amount)}
       </p>
       <div className="details__description__margin">
         <CountdownTimer endDate={data.endDate} />

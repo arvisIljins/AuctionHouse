@@ -30,8 +30,7 @@ namespace BiddingService.Controllers
             return Ok(response);
         }     
 
-        [Authorize]
-        [HttpGet("auctionId")]
+        [HttpGet("{auctionId}")]
         public async Task<ActionResult<List<Bid>>> GetBidsForAuction(string auctionId)
         {     
             var response = await _bidsService.GetBidsByAuctionId(auctionId);

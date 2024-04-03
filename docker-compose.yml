@@ -75,7 +75,7 @@ services:
       - ASPNETCORE_URLS=http://+:80
       - RabbitMq__Host=rabbitmq
       - ConnectionStrings__BidsConnection=mongodb://arvis:arxarx@mongodb
-      - IdentityServiceUrl=http://auction-service
+      - IdentityServiceUrl=http://identity-service
       - GrpcAuction=http://auction-service:7777
     ports:
       - 7003:80
