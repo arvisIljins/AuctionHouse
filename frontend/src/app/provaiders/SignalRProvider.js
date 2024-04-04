@@ -4,8 +4,9 @@ import { useAuctionStore } from "../hooks/UseAuctionStore";
 import { useBidsStore } from "../hooks/UseBidsStore";
 import { HubConnectionBuilder } from "@microsoft/signalr";
 import { notificationsUrl } from "../constants";
+import toast from "react-hot-toast";
 
-const SignalRProvider = ({ children }) => {
+const SignalRProvider = ({ children, user }) => {
   const [connection, setConnection] = useState(null);
   const setCurrentPrice = useAuctionStore((state) => state.setCurrentPrice);
   const addBid = useBidsStore((state) => state.addBid);
@@ -25,12 +26,17 @@ const SignalRProvider = ({ children }) => {
         .start()
         .then(() => {
           connection.on("BidPlaced", (bid) => {
-            console.log("Bid received");
             if (bid.status.includes("Accepted")) {
               setCurrentPrice(bid.id, bid.amount);
             }
-            debugger;
             addBid(bid);
+          });
+
+          connection.on("AuctionCreated", (auction) => {
+            debugger;
+            if (user?.username !== auction.seller) {
+              toast.success(`New auction created - ${auction.title}`);
+            }
           });
         })
         .catch((error) => console.log(error));

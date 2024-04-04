@@ -48,7 +48,7 @@ const AuctionsList = () => {
     });
   }, [url]);
 
-  const showList = !loading && data.auctions.length > 0;
+  const showList = !loading && data.auctions?.length > 0;
   return (
     <>
       <Filters />
