@@ -28,3 +28,10 @@ export async function deleteAuction(id) {
 export async function getBidsById(id) {
   return await fetchWrapper.get(`bids/${id}`);
 }
+
+export async function placeBid(auctionId, amount) {
+  return await fetchWrapper.post(
+    `bids?auctionId=${auctionId}&amount=${amount}`,
+    {}
+  );
+}

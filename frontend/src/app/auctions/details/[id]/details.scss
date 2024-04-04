@@ -23,4 +23,20 @@
             margin-bottom: 3rem;
         }
     }
+
+    &__row {
+        display: flex;
+    }
+
+    &__column {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+
+        &__info {
+         
+        }
+    }
+
+
 }

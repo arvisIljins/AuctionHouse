@@ -1,6 +1,6 @@
 import React from "react";
 import "./update.scss";
-import AuctionForm from "../../auctionForm/AuctionForm";
+import AuctionForm from "../../../../components/auctions/auctionForm/AuctionForm";
 import { getDetailsViewData } from "@/app/services/auctionsService";
 import { getCurrentUser } from "@/app/services/authService";
 

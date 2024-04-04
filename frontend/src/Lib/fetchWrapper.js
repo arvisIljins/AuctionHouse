@@ -57,12 +57,12 @@ async function getHeader() {
 }
 
 async function handleResponse(response) {
-  const text = await response.text();
+  const text = await response?.text();
   const data = text && JSON.parse(text);
   if (response.ok && data.success) {
     return data;
   } else {
-    return { success: false, message: data.message };
+    return { success: false, message: data.message || "Unexpected errors" };
   }
 }
 

@@ -108,7 +108,7 @@ namespace BiddingService.Services.BidsService
             catch(Exception ex) 
             {
                 serviceResponse.Success = false;
-                serviceResponse.Message = $"Error - {ex}";
+                serviceResponse.Message = $"Error - {ex.Message}";
             }
 
             return serviceResponse;
