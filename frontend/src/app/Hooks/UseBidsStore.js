@@ -12,11 +12,11 @@ export const useBidsStore = create((set) => ({
       bids,
     }));
   },
-  addBid: (data) => {
+  addBid: (bid) => {
     set((state) => ({
-      bids: find(!state.bids, (x) => x.id === bid.id)
+      bids: !state.bids.find((x) => x.id === bid.id)
         ? [bid, ...state.bids]
-        : state.bids,
+        : [...state.bids],
     }));
   },
 }));

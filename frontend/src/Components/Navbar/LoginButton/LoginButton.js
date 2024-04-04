@@ -5,7 +5,9 @@ import { signIn } from "next-auth/react";
 const LoginButton = () => {
   return (
     <button
-      onClick={() => signIn("id-server", { callbackUrl: "/" })}
+      onClick={() =>
+        signIn("id-server", { callbackUrl: "/" }, { prompt: "login" })
+      }
       className="button"
       role="button">
       Login

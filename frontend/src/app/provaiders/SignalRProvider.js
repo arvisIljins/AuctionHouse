@@ -24,13 +24,13 @@ const SignalRProvider = ({ children }) => {
       connection
         .start()
         .then(() => {
-          console.log("Notifications connected");
           connection.on("BidPlaced", (bid) => {
             console.log("Bid received");
-            debugger;
             if (bid.status.includes("Accepted")) {
-              setCurrentPrice(bid.auctionId, bid.amount);
+              setCurrentPrice(bid.id, bid.amount);
             }
+            debugger;
+            addBid(bid);
           });
         })
         .catch((error) => console.log(error));
