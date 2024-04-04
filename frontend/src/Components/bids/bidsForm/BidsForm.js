@@ -39,11 +39,11 @@ const BidsForm = ({ auctionId }) => {
           addBid(bid);
           reset();
         } else {
-          toast.error(bid?.message || "Unexpected runtime error!");
+          throw bid?.message;
         }
       });
     } catch (error) {
-      toast.error(error?.message || "Unexpected runtime error!");
+      toast.error(error || "Unexpected runtime error!");
     } finally {
       setLoading(false);
     }
@@ -66,7 +66,7 @@ const BidsForm = ({ auctionId }) => {
             />
           );
         })}
-      <Button text="Submit" type="submit" onClick={handleSubmit(onSubmit)} />
+      <Button text="Submit" type="submit" />
     </form>
   );
 };

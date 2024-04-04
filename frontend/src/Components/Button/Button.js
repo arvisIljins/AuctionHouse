@@ -6,7 +6,7 @@ const Button = ({ text, onClick = null, disabled, loading }) => {
   return (
     <button
       disabled={disabled || loading}
-      onClick={() => onClick()}
+      onClick={onClick ? () => onClick() : null}
       className="button"
       role="button">
       {loading ? "Loading.." : text}
