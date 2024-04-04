@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@microsoft/signalr": "^8.0.0",
     "lodash": "^4.17.21",
     "next": "14.1.0",
     "next-auth": "^4.24.6",

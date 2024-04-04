@@ -32,9 +32,8 @@ export const AuctionCard = ({ auction }) => {
             </div>
           </div>
           <p className="cards__description">{tags}</p>
-          <p className="cards__description">
-            Price: {currentHightBid || reservePrice}
-          </p>
+          <p className="cards__description">Min price: {reservePrice}</p>
+          <p className="cards__description">Biggest bid: {currentHightBid}</p>
           <CountdownTimer endDate={endDate} />
         </div>{" "}
       </Link>
