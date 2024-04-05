@@ -5,6 +5,7 @@ import { useBidsStore } from "../hooks/UseBidsStore";
 import { HubConnectionBuilder } from "@microsoft/signalr";
 import { notificationsUrl } from "../constants";
 import toast from "react-hot-toast";
+import { getDetailsViewData } from "../services/auctionsService";
 
 const SignalRProvider = ({ children, user }) => {
   const [connection, setConnection] = useState(null);
@@ -33,9 +34,15 @@ const SignalRProvider = ({ children, user }) => {
           });
 
           connection.on("AuctionCreated", (auction) => {
-            debugger;
             if (user?.username !== auction.seller) {
               toast.success(`New auction created - ${auction.title}`);
+            }
+          });
+
+          connection.on("AuctionFinished", (req) => {
+            const auction = getDetailsViewData(req.auctionId);
+            if (user?.username !== auction.seller) {
+              toast.success(`Auction finished - ${auction.title}`);
             }
           });
         })
