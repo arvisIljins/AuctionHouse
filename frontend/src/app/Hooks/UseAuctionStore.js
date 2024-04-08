@@ -1,4 +1,4 @@
-import { create } from "zustand";
+import { createWithEqualityFn } from "zustand/traditional";
 
 const initialState = {
   auctions: [],
@@ -6,7 +6,7 @@ const initialState = {
   pageCount: 0,
 };
 
-export const useAuctionStore = create((set) => ({
+export const useAuctionStore = createWithEqualityFn((set) => ({
   ...initialState,
   setData: (data) => {
     set(() => ({

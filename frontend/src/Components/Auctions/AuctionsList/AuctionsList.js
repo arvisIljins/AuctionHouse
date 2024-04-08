@@ -46,7 +46,7 @@ const AuctionsList = () => {
       setData(result.data);
       setLoading(false);
     });
-  }, [url]);
+  }, [url, setData]);
 
   const showList = !loading && data.auctions?.length > 0;
   return (

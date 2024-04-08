@@ -14,6 +14,7 @@ const TextInput = (props) => {
 
   const CustomInput = forwardRef(({ value, onClick, placeholder }, ref) => (
     <input
+      id={props.name}
       className="form__field form__date"
       onClick={onClick}
       value={value}
@@ -22,6 +23,8 @@ const TextInput = (props) => {
       ref={ref}
     />
   ));
+
+  CustomInput.displayName = "CustomInput";
 
   return (
     <div className="form__group field">

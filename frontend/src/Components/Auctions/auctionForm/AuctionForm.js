@@ -81,7 +81,7 @@ const AuctionForm = ({ auction }) => {
         endDate: new Date(endDate),
       });
     }
-  }, []);
+  }, [auction, reset]);
 
   async function onSubmit(data) {
     try {

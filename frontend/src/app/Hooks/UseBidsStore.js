@@ -1,11 +1,11 @@
 import { find } from "lodash";
-import { create } from "zustand";
+import { createWithEqualityFn } from "zustand/traditional";
 
 const initialState = {
   bids: [],
 };
 
-export const useBidsStore = create((set) => ({
+export const useBidsStore = createWithEqualityFn((set) => ({
   ...initialState,
   setBids: (bids) => {
     set(() => ({

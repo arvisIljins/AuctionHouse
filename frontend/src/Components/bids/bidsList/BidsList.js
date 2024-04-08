@@ -22,7 +22,7 @@ const BidsList = ({ id }) => {
       .catch((err) => {
         toast.error(res.message || err.message);
       });
-  }, [id]);
+  }, [id, setBids]);
 
   return <p>{map(bids, (bid) => bid.amount)}</p>;
 };
