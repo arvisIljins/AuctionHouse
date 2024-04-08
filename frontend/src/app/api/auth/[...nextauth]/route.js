@@ -1,3 +1,4 @@
+import { urls } from "@/app/constants";
 import NextAuth from "next-auth";
 import DuendeIDS6Provider from "next-auth/providers/duende-identity-server6";
 
@@ -10,7 +11,7 @@ export const authOptions = {
       id: "id-server",
       clientId: "clientApp",
       clientSecret: "secret",
-      issuer: "http://localhost:5001",
+      issuer: urls.issuer,
       authorization: { params: { scope: "openid profile auctionApp" } },
       idToken: true,
     }),

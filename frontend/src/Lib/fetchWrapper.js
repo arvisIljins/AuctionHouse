@@ -1,6 +1,5 @@
+import { urls } from "@/app/constants";
 import { handleGetToken } from "@/app/services/authService";
-
-const baseUrl = "http://localhost:6001/";
 
 async function get(url) {
   const request = {
@@ -8,7 +7,7 @@ async function get(url) {
     headers: await getHeader(),
   };
 
-  const response = await fetch(`${baseUrl}${url}`, request);
+  const response = await fetch(`${urls.baseUrl}${url}`, request);
   return await handleResponse(response);
 }
 
@@ -19,7 +18,7 @@ async function post(url, body) {
     body: JSON.stringify(body),
   };
 
-  const response = await fetch(`${baseUrl}${url}`, request);
+  const response = await fetch(`${urls.baseUrl}${url}`, request);
   return await handleResponse(response);
 }
 
@@ -30,7 +29,7 @@ async function put(url, body) {
     body: JSON.stringify(body),
   };
 
-  const response = await fetch(`${baseUrl}${url}`, request);
+  const response = await fetch(`${urls.baseUrl}${url}`, request);
   return await handleResponse(response);
 }
 
@@ -40,7 +39,7 @@ async function del(url) {
     headers: await getHeader(),
   };
 
-  const response = await fetch(`${baseUrl}${url}`, request);
+  const response = await fetch(`${urls.baseUrl}${url}`, request);
   return await handleResponse(response);
 }
 

@@ -3,9 +3,9 @@ import { useEffect, useState } from "react";
 import { useAuctionStore } from "../hooks/UseAuctionStore";
 import { useBidsStore } from "../hooks/UseBidsStore";
 import { HubConnectionBuilder } from "@microsoft/signalr";
-import { notificationsUrl } from "../constants";
 import toast from "react-hot-toast";
 import { getDetailsViewData } from "../services/auctionsService";
+import { urls } from "../constants";
 
 const SignalRProvider = ({ children, user }) => {
   const [connection, setConnection] = useState(null);
@@ -14,7 +14,7 @@ const SignalRProvider = ({ children, user }) => {
 
   useEffect(() => {
     const newConnection = new HubConnectionBuilder()
-      .withUrl(notificationsUrl)
+      .withUrl(urls.notificationsUrl)
       .withAutomaticReconnect()
       .build();
 
