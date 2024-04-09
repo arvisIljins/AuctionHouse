@@ -52,7 +52,7 @@ const SignalRProvider = ({ children, user }) => {
     return () => {
       connection?.stop();
     };
-  }, [connection, setCurrentPrice]);
+  }, [connection, setCurrentPrice, addBid, user?.username]);
 
   return children;
 };

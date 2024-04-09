@@ -121,3 +121,19 @@ services:
       - 7004:80
     depends_on:
       - rabbitmq
+  # Web app
+  web-app:
+    image: arvisiljins/web-app:latest
+    build:
+      context: .
+      dockerfile: frontend/Dockerfile
+    volumes:
+      - /var/lib/web/data
+    ports:
+      - 3000:3000
+    environment:
+      - NEXTAUTH_SECRET=somthingreallysecreat
+      - NEXTAUTH_URL=http://web-app
+      - API_URL=http://gateway-service/
+      - API_ISSUER=http://identity-service
+      - NEXT_PUBLIC_API_NOTIFICATIONS=http://gateway-service/notifications
