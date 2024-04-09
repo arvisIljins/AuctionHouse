@@ -1,5 +1,5 @@
 import Navbar from "@/components/navbar/Navbar";
-import "./Styles/globals.scss";
+import "./styles/globals.scss";
 import ToasterProvider from "./provaiders/ToasterProvider";
 import SignalRProvider from "./provaiders/SignalRProvider";
 

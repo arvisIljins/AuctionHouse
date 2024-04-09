@@ -14,7 +14,6 @@ ENV NEXT_TELEMETRY_DISABLED 1
 
 RUN npm run build
 
-# production image, copy all files and run next
 FROM node:18-alpine AS runner
 WORKDIR /app
 
@@ -27,7 +26,7 @@ RUN adduser --system --uid 1001 nextjs
 
 COPY --from=builder /app/public ./public
 COPY --from=builder /app/package.json ./package.json
-COPY --from=builder /app/next.config.js ./next.config.js
+COPY --from=builder /app/next.config.mjs ./next.config.mjs
 
 COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
 COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
