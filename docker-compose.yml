@@ -93,7 +93,7 @@ services:
       - ASPNETCORE_URLS=http://+:80
       - ConnectionStrings__DefaultConnection=Server=postgres:5432;User Id=postgres;Password=arxarx;Database=identitys
     ports:
-      - 5001:80
+      - 80:80
     depends_on:
       - postgres
   # GatewayService
@@ -131,9 +131,12 @@ services:
       - /var/lib/web/data
     ports:
       - 3000:3000
+    extra_hosts:
+      - id.auctions-house.com:172.24.0.9
     environment:
       - NEXTAUTH_SECRET=somthingreallysecreat
-      - NEXTAUTH_URL=http://web-app
+      - NEXTAUTH_URL=http://LOCALHOST:3000
+      - NEXTAUTH_URL_INTERNAL=http://web-app:3000
       - API_URL=http://gateway-service/
-      - API_ISSUER=http://identity-service
+      - API_ISSUER=http://id.auctions-house.com
       - NEXT_PUBLIC_API_NOTIFICATIONS=http://gateway-service/notifications

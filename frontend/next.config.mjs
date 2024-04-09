@@ -4,7 +4,18 @@ const nextConfig = {
     includePaths: [path.join(process.cwd(), "styles")],
   },
   images: {
-    domains: ["images.pexels.com", "www.pexels.com"],
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "images.pexels.com",
+        pathname: "**",
+      },
+      {
+        protocol: "https",
+        hostname: "www.pexels.com",
+        pathname: "**",
+      },
+    ],
   },
   output: "standalone",
 };
