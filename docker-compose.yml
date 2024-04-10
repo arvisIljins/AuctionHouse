@@ -1,3 +1,8 @@
+networks:
+  custom:
+    ipam:
+      config:
+        - subnet: 10.5.0.0/16
 services:
   # Postgres
   postgres:
@@ -8,6 +13,8 @@ services:
       - 5432:5432
     volumes:
       - /var/lib/postgresql/data
+    networks:
+      custom:
   # mongoDb
   mongodb:
     image: mongo
@@ -18,12 +25,16 @@ services:
       - 27017:27017
     volumes:
       - /var/lin/mongodb/data
+    networks:
+      custom:
   # RabbitMq
   rabbitmq:
     image: rabbitmq:3-management-alpine
     ports:
       - 5672:5672
       - 15672:15672
+    networks:
+      custom:
   # AuctionService
   auction-service:
     image: arvisiljins/auction-service:latest
@@ -47,6 +58,8 @@ services:
     depends_on:
       - postgres
       - rabbitmq
+    networks:
+      custom:
   # SearchService
   search-service:
     image: arvisiljins/search-service:latest
@@ -64,6 +77,8 @@ services:
     depends_on:
       - mongodb
       - rabbitmq
+    networks:
+      custom:
   # BiddsService
   biding-service:
     image: arvisiljins/biding-service:latest
@@ -82,6 +97,8 @@ services:
     depends_on:
       - mongodb
       - rabbitmq
+    networks:
+      custom:
   # IdentityService
   identity-service:
     image: arvisiljins/identity-service:latest
@@ -91,11 +108,14 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Docker
       - ASPNETCORE_URLS=http://+:80
+      - ClientApp=app.auctions-house.com
       - ConnectionStrings__DefaultConnection=Server=postgres:5432;User Id=postgres;Password=arxarx;Database=identitys
-    ports:
-      - 80:80
+      - VIRTUAL_HOST=id.auctions-house.com
     depends_on:
       - postgres
+    networks:
+      custom:
+        ipv4_address: 10.5.0.200
   # GatewayService
   gateway-service:
     image: arvisiljins/gateway-service:latest
@@ -105,8 +125,10 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Docker
       - ASPNETCORE_URLS=http://+:80
-    ports:
-      - 6001:80
+      - ClientApp=http://app.auctions-house.com
+      - VIRTUAL_HOST=api.auctions-house.com
+    networks:
+      custom:
   # NotificationService
   notification-service:
     image: arvisiljins/notification-service:latest
@@ -121,6 +143,8 @@ services:
       - 7004:80
     depends_on:
       - rabbitmq
+    networks:
+      custom:
   # Web app
   web-app:
     image: arvisiljins/web-app:latest
@@ -129,14 +153,27 @@ services:
       dockerfile: frontend/Dockerfile
     volumes:
       - /var/lib/web/data
-    ports:
-      - 3000:3000
     extra_hosts:
-      - id.auctions-house.com:172.24.0.9
+      - id.auctions-house.com:10.5.0.200
     environment:
       - NEXTAUTH_SECRET=somthingreallysecreat
-      - NEXTAUTH_URL=http://LOCALHOST:3000
+      - NEXTAUTH_URL=http://app.auctions-house.com
       - NEXTAUTH_URL_INTERNAL=http://web-app:3000
       - API_URL=http://gateway-service/
       - API_ISSUER=http://id.auctions-house.com
       - NEXT_PUBLIC_API_NOTIFICATIONS=http://gateway-service/notifications
+      - VIRTUAL_HOST=app.auctions-house.com
+      - VIRTUAL_PORT=3000
+    networks:
+      custom:
+  # nginx
+  nginx-proxy:
+    image: nginxproxy/nginx-proxy
+    ports:
+      - 80:80
+      - 443:443
+    networks:
+      custom:
+    volumes:
+      - /var/run/docker.sock:/tmp/docker.sock:ro
+      - ./devcerts:/etc/nginx/certs
