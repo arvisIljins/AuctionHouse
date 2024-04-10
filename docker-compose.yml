@@ -125,7 +125,7 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Docker
       - ASPNETCORE_URLS=http://+:80
-      - ClientApp=http://app.auctions-house.com
+      - ClientApp=https://app.auctions-house.com
       - VIRTUAL_HOST=api.auctions-house.com
     networks:
       custom:
