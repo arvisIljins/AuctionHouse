@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "PqTU87bsppPq46gn3XiHMqK7P6ZUlHhRmHgY+x5dhLX0kCXd/vzXk9JqQvpAb9zQLFE4pt3iKiukVKZ0i9UpkQ==",
+  "dgSpecHash": "+9C5MVS2YeaJDGHZ6lBoUavA+DzR8fpls76kBGN2APH9yiXwn/lJ4NTeJNtZNWeIH3TM+XsvK5YsarZus7pbCQ==",
   "success": true,
   "projectFilePath": "/Users/arvisiljins/Desktop/projects/AuctionHouse/src/AuctionService/AuctionService.csproj",
   "expectedPackageFiles": [
@@ -53,6 +53,7 @@
     "/Users/arvisiljins/.nuget/packages/mono.texttemplating/2.2.1/mono.texttemplating.2.2.1.nupkg.sha512",
     "/Users/arvisiljins/.nuget/packages/npgsql/7.0.6/npgsql.7.0.6.nupkg.sha512",
     "/Users/arvisiljins/.nuget/packages/npgsql.entityframeworkcore.postgresql/7.0.11/npgsql.entityframeworkcore.postgresql.7.0.11.nupkg.sha512",
+    "/Users/arvisiljins/.nuget/packages/polly/7.2.4/polly.7.2.4.nupkg.sha512",
     "/Users/arvisiljins/.nuget/packages/rabbitmq.client/6.8.1/rabbitmq.client.6.8.1.nupkg.sha512",
     "/Users/arvisiljins/.nuget/packages/scrutor/3.3.0/scrutor.3.3.0.nupkg.sha512",
     "/Users/arvisiljins/.nuget/packages/swashbuckle.aspnetcore/6.5.0/swashbuckle.aspnetcore.6.5.0.nupkg.sha512",

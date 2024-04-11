@@ -9,7 +9,9 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.OpenApi.Models;
 using MongoDB.Driver;
 using MongoDB.Entities;
+using Polly;
 using Swashbuckle.AspNetCore.Filters;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -54,6 +56,12 @@ builder.Services.AddMassTransit(x =>
     
     x.UsingRabbitMq((context, cfg) => 
     {
+        cfg.UseMessageRetry(r =>
+        {
+            r.Handle<RabbitMqConnectionException>();
+            r.Interval(5, TimeSpan.FromSeconds(5));
+        });
+
         cfg.Host(builder.Configuration["RabbitMq:Host"], "/", host => 
         {
             host.Username(builder.Configuration.GetValue("RabbitMq:UserName", ""));
@@ -76,7 +84,12 @@ app.UseAuthorization();
 
 app.MapControllers();
 
-await DB.InitAsync("Bids", MongoClientSettings
-.FromConnectionString(builder.Configuration.GetConnectionString("BidsConnection")));
-
+await Policy.Handle<TimeoutException>()
+.WaitAndRetryAsync(5, retryAttempt => TimeSpan.FromSeconds(10))
+.ExecuteAndCaptureAsync(async () => 
+{
+    await DB.InitAsync("Bids", MongoClientSettings
+    .FromConnectionString(builder.Configuration.GetConnectionString("BidsConnection")));
+});
+    
 app.Run();

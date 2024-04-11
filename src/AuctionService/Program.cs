@@ -10,7 +10,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.Filters;
 
-
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -57,6 +56,12 @@ builder.Services.AddMassTransit(x =>
     
     x.UsingRabbitMq((context, cfg) => 
     {
+        cfg.UseMessageRetry(r =>
+        {
+            r.Handle<RabbitMqConnectionException>();
+            r.Interval(5, TimeSpan.FromSeconds(5));
+        });
+
         cfg.Host(builder.Configuration["RabbitMq:Host"], "/", host => 
         {
             host.Username(builder.Configuration.GetValue("RabbitMq:UserName", ""));
