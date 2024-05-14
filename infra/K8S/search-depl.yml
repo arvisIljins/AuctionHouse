@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: search-service
+spec:
+  selector:
+    matchLabels:
+      app: search-service
+  template:
+    metadata:
+      labels:
+        app: search-service
+    spec:
+       containers:
+        - name: auction-service
+          image: arvisiljins/auction-service
+          imagePullPolicy: Never
+          env:
+          - name: RabbitMq__Host
+            value: rabbit-clusterip
+          - name: RabbitMq__Username
+            value: arvis
+          - name: RabbitMq__Password
+            value: arxarx123
+          - name: ConnectionStrings__MongoDbConnection
+            value: mongodb://arvis:arxarx@mongo-clusterip
+          - name: AuctionServiceUrl
+            value: http://auction-clusterip
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: search-clusterip
+spec:
+  type: ClusterIP
+  selector:
+    app: search-service
+  ports:
+  - port: 80
+    targetPort: 80
+    name: web
+  
