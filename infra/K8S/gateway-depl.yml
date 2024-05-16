@@ -20,6 +20,8 @@ spec:
             value: https://app.auctions-house.com
           - name: VIRTUAL_HOST
             value: api.auctions-house.com
+          - name: IdentityServiceUrl
+            value: https://id.auctions-house.shop
 ---
 apiVersion: v1
 kind: Service
