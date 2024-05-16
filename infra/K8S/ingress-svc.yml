@@ -5,6 +5,12 @@ metadata:
   labels:
     name: ingress-svc
 spec:
+  ingressClassName: nginx
+  tls:
+    - hosts:
+      - app.auction-house.shop
+      - api.auction-house.shop
+      secretName: auction-house-app-tls
   rules:
   - host: app.auction-house.shop
     http:
