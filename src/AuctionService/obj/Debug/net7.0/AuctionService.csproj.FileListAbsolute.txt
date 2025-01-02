@@ -25,7 +25,6 @@
 /Users/arvisiljins/Desktop/projects/AuctionHouse/src/AuctionService/obj/Debug/net7.0/staticwebassets.build.json
 /Users/arvisiljins/Desktop/projects/AuctionHouse/src/AuctionService/obj/Debug/net7.0/staticwebassets.development.json
 /Users/arvisiljins/Desktop/projects/AuctionHouse/src/AuctionService/obj/Debug/net7.0/scopedcss/bundle/AuctionService.styles.css
-/Users/arvisiljins/Desktop/projects/AuctionHouse/src/AuctionService/obj/Debug/net7.0/AuctionService.csproj.CopyComplete
 /Users/arvisiljins/Desktop/projects/AuctionHouse/src/AuctionService/obj/Debug/net7.0/AuctionService.dll
 /Users/arvisiljins/Desktop/projects/AuctionHouse/src/AuctionService/obj/Debug/net7.0/refint/AuctionService.dll
 /Users/arvisiljins/Desktop/projects/AuctionHouse/src/AuctionService/obj/Debug/net7.0/AuctionService.pdb
@@ -71,3 +70,6 @@
 /Users/arvisiljins/Desktop/projects/AuctionHouse/src/AuctionService/bin/Debug/net7.0/Grpc.Net.Client.dll
 /Users/arvisiljins/Desktop/projects/AuctionHouse/src/AuctionService/bin/Debug/net7.0/Grpc.Net.ClientFactory.dll
 /Users/arvisiljins/Desktop/projects/AuctionHouse/src/AuctionService/bin/Debug/net7.0/Grpc.Net.Common.dll
+/Users/arvisiljins/Desktop/projects/AuctionHouse/src/AuctionService/bin/Debug/net7.0/Polly.dll
+/Users/arvisiljins/Desktop/projects/AuctionHouse/src/AuctionService/obj/Debug/net7.0/AuctionService.sourcelink.json
+/Users/arvisiljins/Desktop/projects/AuctionHouse/src/AuctionService/obj/Debug/net7.0/AuctionS.72D7E915.Up2Date
