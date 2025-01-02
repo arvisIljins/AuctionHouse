@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "+9C5MVS2YeaJDGHZ6lBoUavA+DzR8fpls76kBGN2APH9yiXwn/lJ4NTeJNtZNWeIH3TM+XsvK5YsarZus7pbCQ==",
+  "dgSpecHash": "iSf882wNh8Y=",
   "success": true,
   "projectFilePath": "/Users/arvisiljins/Desktop/projects/AuctionHouse/src/AuctionService/AuctionService.csproj",
   "expectedPackageFiles": [
@@ -71,7 +71,10 @@
     "/Users/arvisiljins/.nuget/packages/system.security.cryptography.cng/4.5.0/system.security.cryptography.cng.4.5.0.nupkg.sha512",
     "/Users/arvisiljins/.nuget/packages/system.text.encodings.web/7.0.0/system.text.encodings.web.7.0.0.nupkg.sha512",
     "/Users/arvisiljins/.nuget/packages/system.text.json/7.0.3/system.text.json.7.0.3.nupkg.sha512",
-    "/Users/arvisiljins/.nuget/packages/system.threading.channels/7.0.0/system.threading.channels.7.0.0.nupkg.sha512"
+    "/Users/arvisiljins/.nuget/packages/system.threading.channels/7.0.0/system.threading.channels.7.0.0.nupkg.sha512",
+    "/Users/arvisiljins/.nuget/packages/microsoft.netcore.app.ref/7.0.20/microsoft.netcore.app.ref.7.0.20.nupkg.sha512",
+    "/Users/arvisiljins/.nuget/packages/microsoft.aspnetcore.app.ref/7.0.20/microsoft.aspnetcore.app.ref.7.0.20.nupkg.sha512",
+    "/Users/arvisiljins/.nuget/packages/microsoft.netcore.app.host.osx-arm64/7.0.20/microsoft.netcore.app.host.osx-arm64.7.0.20.nupkg.sha512"
   ],
   "logs": []
 }
